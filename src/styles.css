@@ -60,6 +60,28 @@ h2 {
   padding-top: 1rem;
 }
 
+/* Make home text container flexible so headings can grow */
+#home .homeText {
+  width: min(60vw, 48rem);
+}
+
+/* Larger, responsive headings for the Home section */
+#home h1 {
+  font-family: "Cormorant Garamond", serif;
+  /* scale with viewport but cap at a reasonable max */
+  font-size: clamp(3.5rem, 8vw, 9.5rem);
+  font-weight: 400;
+  line-height: 0.85;
+  margin: 0;
+}
+
+#home h2 {
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  font-weight: 400;
+  margin: 0;
+  padding-top: 1rem;
+}
+
 h3 {
   font-weight: 400;
   font-size: 1.25rem;

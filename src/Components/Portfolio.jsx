@@ -19,7 +19,7 @@ import React from "react";
  * Need an image? Check out https://unsplash.com to download a photo you
  * freely use on your site.
  */
-import image from "../images/design-desk.jpeg";
+import image from "../images/image_home2.jpg";
 
 const imageAltText = "desktop with books and laptop";
 
@@ -31,28 +31,28 @@ const imageAltText = "desktop with books and laptop";
  */
 const projectList = [
   {
-    title: "10 Things To Know About Azure Static Web Apps 🎉",
+    title: "BEST Brașov",
     description:
-      "Collaboration to create a beginner friendly article to help explain Azure Static Web Apps and tooling to get started.",
-    url: "https://dev.to/azure/10-things-to-know-about-azure-static-web-apps-3n4i",
+      "Active member of the student organization BEST (Board of European Students of Technology) in Brașov, Romania. Logistics responsible for Best Training Week 2025, with over 100 participants.",
+    url: "https://bestbrasov.ro/",
   },
   {
-    title: "Web Development for Beginners",
+    title: "Lingua Astra",
     description:
-      "Contributed sketch note imagery to accompany each lesson. These help provide visual representation of what is being taught.",
-    url: "https://github.com/microsoft/web-dev-for-beginners",
+      "Entry in the Epic Games 2025 Epic MegaJam as part of a 3-person team, a scifi puzzle game. I used C++ and Unreal Engine, implementing postprocessing, core gameplay mechanics and level design.",
+    url: "https://itch.io/jam/2025-epic-megajam/rate/3985405",
   },
   {
-    title: "My Resume Site",
+    title: "Basic Electrotehnics in Virtual Reality",
     description:
-      "Created from Microsoft's resume workshop and deployed to GitHub pages. Includes my experience and design abilities.",
-    url: "https://github.com/microsoft/workshop-library/tree/main/full/build-resume-website",
+      "A VR app developed in Unreal Engine to help students understand the basics of electrotechnics. Winner of AFCO 2025 at Transilvania University of Brașov. ",
+    url: "https://afco.unitbv.ro/images/Documente/Premii_AFCO_2025-1.pdf",
   },
   {
-    title: "GitHub Codespaces and github.dev",
+    title: "My Portfolio Website",
     description:
-      "Video interview to explain when to use GitHub.dev versus GitHub Codespaces, and how best to use each tool.",
-    url: "https://www.youtube.com/watch?v=c3hHhRME_XI",
+      "The website you are on right now. Built using react.js and hosted on GitHub pages. Continuously updated to showcase my latest projects and skills.",
+    url: "",
   },
 ];
 
