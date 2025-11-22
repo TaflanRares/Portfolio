@@ -4,7 +4,12 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;400;600;800&display=swap");
 
-html,
+
+html{
+  scroll-behavior: smooth;
+  scroll-padding-top: 0.5rem;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   height: 100%;
@@ -144,4 +149,68 @@ a:hover {
 img.socialIcon {
   height: 30px;
   width: 30px;
+}
+
+/* Home social icons (next to the name) */
+.homeSocials {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.homeSocialIcon {
+  height: 2rem;
+  width: 2rem;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,0.25));
+}
+
+/* Scroll-down button (light gradient background behind arrow) */
+.scrollDown {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.45rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  z-index: 5;
+}
+
+.scrollDown:hover {
+  transform: translateX(-50%) translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
+
+.scrollDown img {
+  height: 3rem;
+  width: 3rem;
+  display: block;
+}
+
+/* Full-width bottom gradient behind the scroll arrow */
+.scrollGradient {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6rem;
+  pointer-events: none; /* don't block clicks */
+  z-index: 2; /* behind the arrow which uses z-index:5 */
+  /* softer gradient: strongest at bottom, fading upward */
+  background: linear-gradient(to top, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.035) 40%, rgba(255,255,255,0.01) 100%);
+  transition: background 260ms ease, opacity 260ms ease, transform 260ms ease;
+}
+
+/* When hovering the arrow, brighten the full-width gradient */
+.scrollDown:hover + .scrollGradient,
+.scrollDown:focus + .scrollGradient {
+  /* hover/focus state: brighter gradient starting at bottom and fading upward */
+  background: linear-gradient(to top, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.065) 45%, rgba(255,255,255,0.02) 100%);
+  transform: translateY(-2px);
 }
