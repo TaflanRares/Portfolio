@@ -11,6 +11,7 @@ import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
 import Portfolio from "./Components/Portfolio";
+import Education from "./Components/Education";
 
 import "./styles.css";
 
@@ -35,8 +36,8 @@ const siteProps = {
   youTube: "",
 };
 
-const primaryColor = "#2b9565ff";
-const secondaryColor = "#8dcfb3ff";
+const primaryColor = "#0c653dff";
+const secondaryColor = "#70c2a0ff";
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
       />
       <About />
       <Portfolio />
+      <Education />
       <Footer {...siteProps} primaryColor={primaryColor} secondaryColor={secondaryColor} />
     </div>
   );

@@ -10,18 +10,9 @@
 
 import React from "react";
 
-/**
- * Desk image
- *
- * Below is a sample desk image. Feel free to update this to an image of your choice,
- * updating below imageAltText to string that represents what you see in that image.
- *
- * Need an image? Check out https://unsplash.com to download a photo you
- * freely use on your site.
- */
 import image from "../images/image_home2.jpg";
 
-const imageAltText = "desktop with books and laptop";
+const imageAltText = "Rares Taflan";
 
 /**
  * Project list
@@ -43,7 +34,7 @@ const projectList = [
     url: "https://itch.io/jam/2025-epic-megajam/rate/3985405",
   },
   {
-    title: "Basic Electrotehnics in Virtual Reality",
+    title: "Basic Electrotechnics in Virtual Reality",
     description:
       "A VR app developed in Unreal Engine to help students understand the basics of electrotechnics. Winner of AFCO 2025 at Transilvania University of Brașov. ",
     url: "https://afco.unitbv.ro/images/Documente/Premii_AFCO_2025-1.pdf",
