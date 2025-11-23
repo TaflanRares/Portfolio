@@ -28679,6 +28679,15 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 lineNumber: 34,
                 columnNumber: 7
             }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "homeLocation",
+                "aria-hidden": "false",
+                children: "Brașov, Romania"
+            }, void 0, false, {
+                fileName: "src/Components/Home.jsx",
+                lineNumber: 68,
+                columnNumber: 7
+            }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                 href: "#portfolio",
                 className: "scrollDown",
@@ -28692,12 +28701,12 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                     alt: imageAltText
                 }, void 0, false, {
                     fileName: "src/Components/Home.jsx",
-                    lineNumber: 69,
+                    lineNumber: 70,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 68,
+                lineNumber: 69,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28705,7 +28714,7 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 "aria-hidden": "true"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 71,
+                lineNumber: 72,
                 columnNumber: 7
             }, undefined)
         ]
@@ -28739,7 +28748,7 @@ $RefreshReg$(_c, "Home");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","../images/socials/github.svg":"vP2m6","../images/socials/linkedin.svg":"5XSmz","../images/socials/envelope.svg":"92UhI","prop-types":"7wKI2","../images/image_home1.jpg":"eZyHa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b5nCi":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","../images/socials/github.svg":"vP2m6","../images/socials/linkedin.svg":"5XSmz","prop-types":"7wKI2","../images/image_home1.jpg":"eZyHa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../images/socials/envelope.svg":"92UhI"}],"b5nCi":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "down-arrow.1037091f.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"eZyHa":[function(require,module,exports) {
@@ -28846,59 +28855,70 @@ const Portfolio = ()=>{
                 },
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "container",
-                    children: projectList.map((project)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    children: projectList.map((project)=>{
+                        const hasUrl = project.url && project.url.trim() !== "";
+                        const LinkTag = hasUrl ? "a" : "div";
+                        const linkProps = hasUrl ? {
+                            href: project.url,
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            className: "projectLink"
+                        } : {
+                            className: "projectLink"
+                        };
+                        return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             className: "box",
                             children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "projectImageWrap",
-                                    children: project.image ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                                        src: project.image,
-                                        className: "projectImage",
-                                        alt: project.title
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Portfolio.jsx",
-                                        lineNumber: 69,
-                                        columnNumber: 19
-                                    }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        className: "projectImagePlaceholder",
-                                        "aria-hidden": "true",
-                                        children: "No image"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Portfolio.jsx",
-                                        lineNumber: 71,
-                                        columnNumber: 19
-                                    }, undefined)
-                                }, void 0, false, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(LinkTag, {
+                                    ...linkProps,
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            className: "projectImageWrap",
+                                            children: project.image ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                                src: project.image,
+                                                className: "projectImage",
+                                                alt: project.title
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Portfolio.jsx",
+                                                lineNumber: 82,
+                                                columnNumber: 23
+                                            }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "projectImagePlaceholder",
+                                                "aria-hidden": "true",
+                                                children: "No image"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Portfolio.jsx",
+                                                lineNumber: 84,
+                                                columnNumber: 23
+                                            }, undefined)
+                                        }, void 0, false, {
+                                            fileName: "src/Components/Portfolio.jsx",
+                                            lineNumber: 80,
+                                            columnNumber: 19
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                            style: {
+                                                flexBasis: "40px"
+                                            },
+                                            children: project.title
+                                        }, void 0, false, {
+                                            fileName: "src/Components/Portfolio.jsx",
+                                            lineNumber: 90,
+                                            columnNumber: 19
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 67,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                                    href: project.url,
-                                    target: "_blank",
-                                    rel: "noopener noreferrer",
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                        style: {
-                                            flexBasis: "40px"
-                                        },
-                                        children: project.title
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Portfolio.jsx",
-                                        lineNumber: 78,
-                                        columnNumber: 17
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 77,
-                                    columnNumber: 15
+                                    lineNumber: 79,
+                                    columnNumber: 17
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                     className: "small",
                                     children: project.description
                                 }, void 0, false, {
                                     fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 80,
-                                    columnNumber: 15
+                                    lineNumber: 93,
+                                    columnNumber: 17
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: "projectSkills",
@@ -28909,20 +28929,21 @@ const Portfolio = ()=>{
                                             children: skill
                                         }, skill, false, {
                                             fileName: "src/Components/Portfolio.jsx",
-                                            lineNumber: 83,
-                                            columnNumber: 19
+                                            lineNumber: 96,
+                                            columnNumber: 21
                                         }, undefined))
                                 }, void 0, false, {
                                     fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 81,
-                                    columnNumber: 15
+                                    lineNumber: 94,
+                                    columnNumber: 17
                                 }, undefined)
                             ]
                         }, project.title, true, {
                             fileName: "src/Components/Portfolio.jsx",
-                            lineNumber: 66,
-                            columnNumber: 13
-                        }, undefined))
+                            lineNumber: 78,
+                            columnNumber: 15
+                        }, undefined);
+                    })
                 }, void 0, false, {
                     fileName: "src/Components/Portfolio.jsx",
                     lineNumber: 64,
@@ -28950,7 +28971,7 @@ $RefreshReg$(_c, "Portfolio");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/projects/LinguaAstra.png":"7SIpH","../images/projects/BazeleElectrotehniciiVR.png":"66ZVN","../images/projects/ReactLogo.png":"gYp3e","../images/projects/BESTLogoVisiniu.png":"lpMfo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7SIpH":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../images/projects/LinguaAstra.png":"7SIpH","../images/projects/BazeleElectrotehniciiVR.png":"66ZVN","../images/projects/ReactLogo.png":"gYp3e","../images/projects/BESTLogoVisiniu.png":"lpMfo"}],"7SIpH":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "LinguaAstra.e00b4e7f.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"66ZVN":[function(require,module,exports) {

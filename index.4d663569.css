@@ -78,6 +78,39 @@ h2 {
   font-weight: 400;
 }
 
+.homeLocation {
+  color: #fff;
+  opacity: .98;
+  text-align: left;
+  letter-spacing: .3px;
+  z-index: 6;
+  align-items: center;
+  gap: .5rem;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  font-weight: 700;
+  display: inline-flex;
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+}
+
+.homeLocation:before {
+  content: "📍";
+  margin-right: .35rem;
+  font-size: 1.05em;
+  display: inline-block;
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .homeLocation {
+    font-size: 1rem;
+    font-weight: 600;
+    bottom: 2rem;
+    left: 1rem;
+  }
+}
+
 h3 {
   margin: 0;
   font-size: 1.25rem;
@@ -231,6 +264,35 @@ a:hover {
   margin-bottom: .6rem;
   display: flex;
   overflow: hidden;
+}
+
+.projectLink {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.projectLink:focus {
+  outline-offset: 3px;
+  outline: 2px solid #0c653d26;
+}
+
+.projectLink:hover .projectImage, .projectLink:focus .projectImage, .box:hover .projectImage, .box:focus-within .projectImage {
+  transform: scale(1.06)translateY(-4px);
+}
+
+.projectImage {
+  transform-origin: center;
+  transition: transform .3s cubic-bezier(.2, .9, .2, 1);
+}
+
+.projectLink h3, .projectLink:focus h3 {
+  transition: color .18s, transform .18s;
+}
+
+.projectLink:hover h3 {
+  color: #0c653d;
+  transform: translateY(-2px);
 }
 
 .projectImage {
