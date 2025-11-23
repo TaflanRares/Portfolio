@@ -23,8 +23,8 @@ const Education = () => {
             Transilvania University of Brașov — Started 2024
           </p>
           <p style={{ marginTop: "0.5rem" }}>
-            Coursework includes core computer engineering topics.
-            Currently pursuing studies while contributing to projects and competitions.
+            Coursework includes core computer engineering topics. Currently pursuing studies while
+            contributing to projects and competitions.
           </p>
         </div>
 
@@ -33,12 +33,12 @@ const Education = () => {
         <div>
           <h3>PNRR — Cybersecurity and AI Course</h3>
           <p className="small" style={{ marginTop: "0.25rem" }}>
-            National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and
-            Artificial Intelligence course.
+            National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and Artificial
+            Intelligence course.
           </p>
           <p style={{ marginTop: "0.5rem" }}>
-            Completed training focused on applied cybersecurity techniques and practical
-            AI applications relevant to software and systems engineering.
+            Completed training focused on applied cybersecurity techniques and practical AI
+            applications relevant to software and systems engineering.
             <br></br>
             <small>ASEPNS nr 8356/02.06.2025</small>
           </p>

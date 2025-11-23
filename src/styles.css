@@ -146,6 +146,52 @@ a:hover {
   text-align: center;
 }
 
+/* Portfolio specific layout tweaks */
+#portfolio .portfolioInner {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+#portfolio .portfolioHero {
+  flex: 0 0 40%;
+  align-self: center;
+}
+
+#portfolio .portfolioImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Mobile: stack projects vertically and hide the hero image */
+@media (max-width: 768px) {
+  #portfolio .portfolioInner {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  /* Hide the decorative hero image on small screens */
+  #portfolio .portfolioHero {
+    display: none;
+  }
+
+  /* Make the project grid a single column for vertical list */
+  #portfolio .container {
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+  }
+
+  #portfolio .container .box {
+    text-align: left;
+  }
+}
+
 img.socialIcon {
   height: 30px;
   width: 30px;
@@ -213,4 +259,95 @@ img.socialIcon {
   /* hover/focus state: brighter gradient starting at bottom and fading upward */
   background: linear-gradient(to top, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.065) 45%, rgba(255,255,255,0.02) 100%);
   transform: translateY(-2px);
+}
+
+/* Responsive header styles */
+.siteHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.brand a {
+  font-weight: 600;
+  font-size: 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+.mainNav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin: 0 auto;
+}
+.mainNav a {
+  padding: 6px 8px;
+  color: inherit;
+  text-decoration: none;
+}
+.hamburger {
+  display: none;
+  background: none;
+  border: 0;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+.hamburgerBox {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #222;
+  border-radius: 2px;
+  position: relative;
+}
+.hamburgerBox::before,
+.hamburgerBox::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: #222;
+  border-radius: 2px;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.hamburgerBox::before { top: -7px; }
+.hamburgerBox::after { top: 7px; }
+.hamburgerBox.open { transform: rotate(45deg); }
+.hamburgerBox.open::before { transform: rotate(90deg) translateX(0); top: 0; }
+.hamburgerBox.open::after { opacity: 0; }
+
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .mainNav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.98);
+    flex-direction: column;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 260ms ease, opacity 200ms ease;
+    opacity: 0;
+  }
+  .mainNav.open {
+    max-height: 60vh;
+    opacity: 1;
+  }
+  .mainNav a { padding: 1rem; border-top: 1px solid #eee; }
 }
