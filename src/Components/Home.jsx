@@ -9,6 +9,7 @@ import React from "react";
 import arrowSvg from "../images/down-arrow.svg";
 import gitHubIcon from "../images/socials/github.svg";
 import linkedInIcon from "../images/socials/linkedin.svg";
+import envelopeIcon from "../images/socials/envelope.svg";
 import PropTypes from "prop-types";
 
 /**
@@ -26,7 +27,7 @@ import image from "../images/image_home1.jpg";
 
 const imageAltText = "Forest";
 
-const Home = ({ name, title, gitHub, linkedIn }) => {
+const Home = ({ name, title, gitHub, linkedIn, email }) => {
   return (
     <section id="home" className="min-height">
       <img className="background" src={image} alt="" />
@@ -34,10 +35,10 @@ const Home = ({ name, title, gitHub, linkedIn }) => {
         className="homeText"
         style={{
           position: "absolute",
-          top: "5rem",
-          left: "2rem",
+          top: "7rem",
+          left: "3rem",
           color: "white",
-          opacity: "0.8",
+          opacity: "0.85",
         }}
       >
         <h1 style={{ margin: 0 }}>{name}</h1>
@@ -51,13 +52,20 @@ const Home = ({ name, title, gitHub, linkedIn }) => {
           {linkedIn && (
             <a
               href={`https://www.linkedin.com/in/${linkedIn}`}
-              target="_blank" rel="noopener noreferrer">
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={linkedInIcon} alt="LinkedIn" className="homeSocialIcon" />
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`} aria-label="Email">
+              <img src={envelopeIcon} alt="Email" className="homeSocialIcon" />
             </a>
           )}
         </div>
       </div>
-      <a href="#about" className="scrollDown" aria-label="Scroll to About">
+      <a href="#portfolio" className="scrollDown" aria-label="Scroll to Portfolio">
         <img src={arrowSvg} style={{ height: "3rem", width: "3rem" }} alt={imageAltText} />
       </a>
       <div className="scrollGradient" aria-hidden="true" />
@@ -70,6 +78,7 @@ Home.defaultProps = {
   title: "",
   gitHub: "",
   linkedIn: "",
+  email: "",
 };
 
 Home.propTypes = {
@@ -77,6 +86,7 @@ Home.propTypes = {
   title: PropTypes.string.isRequired,
   gitHub: PropTypes.string,
   linkedIn: PropTypes.string,
+  email: PropTypes.string,
 };
 
 export default Home;

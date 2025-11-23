@@ -52,7 +52,7 @@ section img.background {
 
 h1 {
   font-family: "Cormorant Garamond", serif;
-  font-size: 7rem;
+  font-size: 9rem;
   font-weight: 400;
   line-height: 0.8;
   margin: 0;
@@ -192,6 +192,92 @@ a:hover {
   }
 }
 
+/* Project skills (chips) */
+.projectSkills {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.skillChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  background: rgba(12,101,61,0.07);
+  color: #0c653d;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(12,101,61,0.12);
+}
+
+@media (min-width: 769px) {
+  /* ensure project boxes align left on desktop for readability */
+  #portfolio .container .box {
+    text-align: left;
+  }
+}
+
+/* Wider project cards and larger hero images on wider screens */
+@media (min-width: 1024px) {
+  #portfolio .portfolioInner {
+    max-width: 1280px;
+    gap: 3rem;
+  }
+
+  /* Increase the width of the two-column grid so each project card is wider */
+  #portfolio .container {
+    grid-template-columns: 480px 480px;
+    grid-gap: 28px;
+    margin: 0 auto;
+  }
+
+  /* Make hero images taller to match wider cards */
+  #portfolio .projectImageWrap {
+    height: 240px;
+  }
+}
+
+/* Per-project image slot above each project */
+.projectImageWrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  margin-bottom: 0.6rem;
+}
+
+.projectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.projectImagePlaceholder {
+  width: 90%;
+  height: 70%;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #fafafa, #f0f0f0);
+  color: #8a8a8a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  border: 1px dashed rgba(0,0,0,0.06);
+}
+
+@media (max-width: 480px) {
+  .projectImageWrap {
+    height: 140px;
+  }
+}
+
 img.socialIcon {
   height: 30px;
   width: 30px;
@@ -200,14 +286,19 @@ img.socialIcon {
 /* Home social icons (next to the name) */
 .homeSocials {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.2rem;
   align-items: center;
 }
 
 .homeSocialIcon {
-  height: 2rem;
-  width: 2rem;
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,0.25));
+  height: 2.6rem;
+  width: 2.6rem;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+  transition: transform 160ms ease;
+}
+.homeSocials a:hover .homeSocialIcon,
+.homeSocials a:focus .homeSocialIcon {
+  transform: translateY(-3px) scale(1.06);
 }
 
 /* Scroll-down button (light gradient background behind arrow) */
@@ -296,6 +387,13 @@ img.socialIcon {
   padding: 6px 8px;
   color: inherit;
   text-decoration: none;
+  transition: color 160ms ease;
+}
+
+/* Slight green on hover/focus for header nav links */
+.mainNav a:hover,
+.mainNav a:focus {
+  color: #0c653d; /* slightly green */
 }
 .hamburger {
   display: none;

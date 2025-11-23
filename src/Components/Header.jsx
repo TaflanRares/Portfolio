@@ -43,9 +43,13 @@ const Header = () => {
           <span className={`hamburgerBox ${open ? "open" : ""}`} />
         </button>
 
-        <nav id="mainNav" ref={navRef} className={`mainNav ${open ? "open" : ""}`} role="navigation">
+        <nav
+          id="mainNav"
+          ref={navRef}
+          className={`mainNav ${open ? "open" : ""}`}
+          role="navigation"
+        >
           <a href="#home">Home</a>
-          <a href="#about">About</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#education">Education</a>
           <a href="#footer">Contact</a>
