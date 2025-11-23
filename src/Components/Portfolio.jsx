@@ -62,31 +62,45 @@ const Portfolio = () => {
       <h2 style={{ textAlign: "center" }}>Portfolio</h2>
       <div className="portfolioInner" style={{ paddingTop: "3rem" }}>
         <div className="container">
-          {projectList.map((project) => (
-            <div className="box" key={project.title}>
-              <div className="projectImageWrap">
-                {project.image ? (
-                  <img src={project.image} className="projectImage" alt={project.title} />
-                ) : (
-                  <div className="projectImagePlaceholder" aria-hidden="true">
-                    No image
-                  </div>
-                )}
-              </div>
+          {projectList.map((project) => {
+            const hasUrl = project.url && project.url.trim() !== "";
+            const LinkTag = hasUrl ? "a" : "div";
+            const linkProps = hasUrl
+              ? {
+                  href: project.url,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  className: "projectLink",
+                }
+              : { className: "projectLink" };
 
-              <a href={project.url} target="_blank" rel="noopener noreferrer">
-                <h3 style={{ flexBasis: "40px" }}>{project.title}</h3>
-              </a>
-              <p className="small">{project.description}</p>
-              <div className="projectSkills" aria-label={`${project.title} skills`}>
-                {(project.skills || []).map((skill) => (
-                  <span className="skillChip" key={skill} aria-hidden="true">
-                    {skill}
-                  </span>
-                ))}
+            return (
+              <div className="box" key={project.title}>
+                <LinkTag {...linkProps}>
+                  <div className="projectImageWrap">
+                    {project.image ? (
+                      <img src={project.image} className="projectImage" alt={project.title} />
+                    ) : (
+                      <div className="projectImagePlaceholder" aria-hidden="true">
+                        No image
+                      </div>
+                    )}
+                  </div>
+
+                  <h3 style={{ flexBasis: "40px" }}>{project.title}</h3>
+                </LinkTag>
+
+                <p className="small">{project.description}</p>
+                <div className="projectSkills" aria-label={`${project.title} skills`}>
+                  {(project.skills || []).map((skill) => (
+                    <span className="skillChip" key={skill} aria-hidden="true">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

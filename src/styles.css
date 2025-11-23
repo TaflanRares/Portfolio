@@ -87,6 +87,41 @@ h2 {
   padding-top: 1rem;
 }
 
+/* Location text in the top-right of the Home section */
+.homeLocation {
+  position: absolute;
+  /* place at the bottom-left of the hero area */
+  bottom: 3rem;
+  left: 3rem;
+  color: white;
+  opacity: 0.98;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  font-weight: 700;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.3px;
+  z-index: 6;
+}
+
+.homeLocation::before {
+  content: "📍";
+  display: inline-block;
+  font-size: 1.05em;
+  margin-right: 0.35rem;
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .homeLocation {
+    bottom: 2rem;
+    left: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
 h3 {
   font-weight: 400;
   font-size: 1.25rem;
@@ -250,6 +285,41 @@ a:hover {
   justify-content: center;
   background: #f8f8f8;
   margin-bottom: 0.6rem;
+}
+
+/* Interactive project link styles */
+.projectLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.projectLink:focus {
+  outline: 2px solid rgba(12,101,61,0.15);
+  outline-offset: 3px;
+}
+
+/* Hover: scale image and slightly lift/move it; tint title green */
+.projectLink:hover .projectImage,
+.projectLink:focus .projectImage,
+.box:hover .projectImage,
+.box:focus-within .projectImage {
+  transform: scale(1.06) translateY(-4px);
+}
+
+.projectImage {
+  transition: transform 300ms cubic-bezier(.2,.9,.2,1);
+  transform-origin: center center;
+}
+
+.projectLink h3,
+.projectLink:focus h3 {
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.projectLink:hover h3 {
+  color: #0c653d;
+  transform: translateY(-2px);
 }
 
 .projectImage {
