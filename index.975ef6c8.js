@@ -28701,12 +28701,12 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                     alt: imageAltText
                 }, void 0, false, {
                     fileName: "src/Components/Home.jsx",
-                    lineNumber: 70,
+                    lineNumber: 72,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 69,
+                lineNumber: 71,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28714,7 +28714,7 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 "aria-hidden": "true"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 72,
+                lineNumber: 74,
                 columnNumber: 7
             }, undefined)
         ]
@@ -28748,7 +28748,7 @@ $RefreshReg$(_c, "Home");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","../images/socials/github.svg":"vP2m6","../images/socials/linkedin.svg":"5XSmz","prop-types":"7wKI2","../images/image_home1.jpg":"eZyHa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../images/socials/envelope.svg":"92UhI"}],"b5nCi":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","../images/socials/github.svg":"vP2m6","../images/socials/linkedin.svg":"5XSmz","../images/socials/envelope.svg":"92UhI","prop-types":"7wKI2","../images/image_home1.jpg":"eZyHa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b5nCi":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "down-arrow.1037091f.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"eZyHa":[function(require,module,exports) {
@@ -28971,7 +28971,7 @@ $RefreshReg$(_c, "Portfolio");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../images/projects/LinguaAstra.png":"7SIpH","../images/projects/BazeleElectrotehniciiVR.png":"66ZVN","../images/projects/ReactLogo.png":"gYp3e","../images/projects/BESTLogoVisiniu.png":"lpMfo"}],"7SIpH":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/projects/LinguaAstra.png":"7SIpH","../images/projects/BazeleElectrotehniciiVR.png":"66ZVN","../images/projects/ReactLogo.png":"gYp3e","../images/projects/BESTLogoVisiniu.png":"lpMfo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7SIpH":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "LinguaAstra.e00b4e7f.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"66ZVN":[function(require,module,exports) {
@@ -29034,7 +29034,7 @@ const Education = ()=>{
                         },
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                children: "Bachelor of Computer Engineering"
+                                children: "Transilvania University of Brașov"
                             }, void 0, false, {
                                 fileName: "src/Components/Education.jsx",
                                 lineNumber: 21,
@@ -29045,7 +29045,7 @@ const Education = ()=>{
                                 style: {
                                     marginTop: "0.25rem"
                                 },
-                                children: "Transilvania University of Brașov — Started 2024"
+                                children: "Bachelor of Computer Engineering — Started 2024"
                             }, void 0, false, {
                                 fileName: "src/Components/Education.jsx",
                                 lineNumber: 22,
@@ -29090,7 +29090,7 @@ const Education = ()=>{
                                 style: {
                                     marginTop: "0.25rem"
                                 },
-                                children: "National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and Artificial Intelligence course."
+                                children: "National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and Artificial Intelligence course - 2025."
                             }, void 0, false, {
                                 fileName: "src/Components/Education.jsx",
                                 lineNumber: 35,
@@ -29124,6 +29124,51 @@ const Education = ()=>{
                     }, void 0, true, {
                         fileName: "src/Components/Education.jsx",
                         lineNumber: 33,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("hr", {
+                        style: {
+                            margin: "1.75rem 0"
+                        }
+                    }, void 0, false, {
+                        fileName: "src/Components/Education.jsx",
+                        lineNumber: 47,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                children: 'Colegiul Național "Radu Negru"'
+                            }, void 0, false, {
+                                fileName: "src/Components/Education.jsx",
+                                lineNumber: 50,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                className: "small",
+                                style: {
+                                    marginTop: "0.25rem"
+                                },
+                                children: "Mathematics and Computer Science — Graduated 2024"
+                            }, void 0, false, {
+                                fileName: "src/Components/Education.jsx",
+                                lineNumber: 51,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                style: {
+                                    marginTop: "0.5rem"
+                                },
+                                children: "Developed basic programming skills and mathematical foundations. Participated in various competitions and olympiads. Honourable mention at 2023 National English Olympiad."
+                            }, void 0, false, {
+                                fileName: "src/Components/Education.jsx",
+                                lineNumber: 54,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/Components/Education.jsx",
+                        lineNumber: 49,
                         columnNumber: 9
                     }, undefined)
                 ]
