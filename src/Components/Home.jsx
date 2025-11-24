@@ -65,7 +65,9 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
           )}
         </div>
       </div>
-      <div className="homeLocation" aria-hidden="false">Brașov, Romania</div>
+      <div className="homeLocation" aria-hidden="false">
+        Brașov, Romania
+      </div>
       <a href="#portfolio" className="scrollDown" aria-label="Scroll to Portfolio">
         <img src={arrowSvg} style={{ height: "3rem", width: "3rem" }} alt={imageAltText} />
       </a>

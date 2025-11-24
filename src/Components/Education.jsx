@@ -18,9 +18,9 @@ const Education = () => {
         <h2>Education</h2>
 
         <div style={{ marginTop: "1.5rem" }}>
-          <h3>Bachelor of Computer Engineering</h3>
+          <h3>Transilvania University of Brașov</h3>
           <p className="small" style={{ marginTop: "0.25rem" }}>
-            Transilvania University of Brașov — Started 2024
+            Bachelor of Computer Engineering — Started 2024
           </p>
           <p style={{ marginTop: "0.5rem" }}>
             Coursework includes core computer engineering topics. Currently pursuing studies while
@@ -34,13 +34,26 @@ const Education = () => {
           <h3>PNRR — Cybersecurity and AI Course</h3>
           <p className="small" style={{ marginTop: "0.25rem" }}>
             National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and Artificial
-            Intelligence course.
+            Intelligence course - 2025.
           </p>
           <p style={{ marginTop: "0.5rem" }}>
             Completed training focused on applied cybersecurity techniques and practical AI
             applications relevant to software and systems engineering.
             <br></br>
             <small>ASEPNS nr 8356/02.06.2025</small>
+          </p>
+        </div>
+
+        <hr style={{ margin: "1.75rem 0" }} />
+
+        <div>
+          <h3>Colegiul Național &quot;Radu Negru&quot;</h3>
+          <p className="small" style={{ marginTop: "0.25rem" }}>
+            Mathematics and Computer Science — Graduated 2024
+          </p>
+          <p style={{ marginTop: "0.5rem" }}>
+            Developed basic programming skills and mathematical foundations. Participated in various
+            competitions and olympiads. Honourable mention at 2023 National English Olympiad.
           </p>
         </div>
       </div>

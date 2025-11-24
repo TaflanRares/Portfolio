@@ -4,6 +4,11 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;400;600;800&display=swap");
 
+/* Use border-box everywhere to avoid size calculations causing overflow */
+*,*::before,*::after{box-sizing:border-box}
+
+/* Prevent images from escaping their containers */
+img{max-width:100%;height:auto;display:block}
 
 html{
   scroll-behavior: smooth;
@@ -22,12 +27,12 @@ body {
 div#main {
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
 }
 
 section {
   position: relative;
-  width: 100vw;
+  width: 100%;
 }
 
 section.min-height {
@@ -39,14 +44,15 @@ section.padding {
 }
 
 section img.background {
-  height: 100%;
-  left: 50%;
-  object-fit: cover;
-  pointer-events: none;
   position: absolute;
   top: 0;
-  transform: translate(-50%, 0);
-  width: 100vmax;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
   z-index: -1;
 }
 
@@ -167,8 +173,12 @@ a:hover {
 .container {
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 330px 300px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   margin: 20px auto;
+  width: 100%;
+  max-width: 1100px;
+  justify-content: center;
+  padding: 0 1rem;
 }
 
 .container .box {
@@ -189,6 +199,8 @@ a:hover {
   align-items: flex-start;
   max-width: 1100px;
   margin: 0 auto;
+  justify-content: center;
+  width: 100%;
 }
 
 #portfolio .portfolioHero {
