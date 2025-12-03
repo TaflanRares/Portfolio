@@ -11,6 +11,47 @@ const Header = () => {
   const [showName, setShowName] = useState(false);
   const navRef = useRef(null);
 
+  // Smooth, robust scrolling for anchor links (works with lazy-loaded sections)
+  const handleNavClick = (e) => {
+    const href = e.currentTarget.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    e.preventDefault();
+
+    const id = href.slice(1);
+
+    // Update the URL hash without jumping (pushState avoids immediate default jump)
+    try {
+      if (window && window.history && window.history.pushState) {
+        window.history.pushState(null, '', `#${id}`);
+      } else {
+        window.location.hash = `#${id}`;
+      }
+    } catch (err) {
+      // ignore
+    }
+
+    // Try to find the element immediately, otherwise poll until it appears or timeout
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+      return false;
+    };
+
+    if (tryScroll()) return;
+
+    let attempts = 0;
+    const maxAttempts = 30; // try for up to ~3 seconds (30 * 100ms)
+    const interval = setInterval(() => {
+      attempts += 1;
+      if (tryScroll() || attempts >= maxAttempts) {
+        clearInterval(interval);
+      }
+    }, 100);
+  };
+
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") setOpen(false);
@@ -82,10 +123,10 @@ const Header = () => {
           className={`mainNav ${open ? "open" : ""}`}
           role="navigation"
         >
-          <a href="#home">Home</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#education">Education</a>
-          <a href="#footer">Contact</a>
+          <a href="#home" onClick={handleNavClick}>Home</a>
+          <a href="#portfolio" onClick={handleNavClick}>Portfolio</a>
+          <a href="#education" onClick={handleNavClick}>Education</a>
+          <a href="#footer" onClick={handleNavClick}>Contact</a>
         </nav>
       </div>
     </header>

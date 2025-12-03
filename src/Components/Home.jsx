@@ -5,7 +5,7 @@
  * choice, name and title that describes your career focus.
  */
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import arrowSvg from "../images/down-arrow.svg";
 import gitHubIcon from "../images/socials/github.svg";
 import linkedInIcon from "../images/socials/linkedin.svg";
@@ -112,20 +112,112 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
             </a>
           )}
           {email && (
-            <a href={`mailto:${email}`} aria-label="Email">
-              <img src={envelopeIcon} alt="Email" className="homeSocialIcon" width="42" height="42" />
-            </a>
+            <>
+              <button
+                type="button"
+                className="copyEmailBtn"
+                onClick={async () => {
+                  try {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      await navigator.clipboard.writeText(email);
+                    } else {
+                      const ta = document.createElement("textarea");
+                      ta.value = email;
+                      ta.setAttribute("readonly", "");
+                      ta.style.position = "absolute";
+                      ta.style.left = "-9999px";
+                      document.body.appendChild(ta);
+                      ta.select();
+                      document.execCommand("copy");
+                      document.body.removeChild(ta);
+                    }
+                    // show toast below (managed by state)
+                    if (window && window.dispatchEvent) {
+                      const msg = (window.matchMedia && window.matchMedia('(max-width:480px)').matches)
+                        ? 'Copied'
+                        : 'Email copied to clipboard';
+                      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: msg } }));
+                    }
+                  } catch (err) {
+                    if (window && window.dispatchEvent) {
+                      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Could not copy email' } }));
+                    }
+                  }
+                }}
+                aria-label="Copy email to clipboard"
+                title="Copy email"
+              >
+                <img src={envelopeIcon} alt="Email" className="homeSocialIcon" width="42" height="42" />
+              </button>
+            </>
           )}
         </div>
       </div>
       <div className="homeLocation" aria-hidden="false">
         Brașov, Romania
       </div>
-      <a href="#portfolio" className="scrollDown" aria-label="Scroll to Portfolio">
+      <a
+        href="#portfolio"
+        className="scrollDown"
+        aria-label="Scroll to Portfolio"
+        onClick={(e) => {
+          e.preventDefault();
+          // Try to scroll to #portfolio immediately; if it's not mounted yet (lazy loaded),
+          // poll briefly until the element appears (or give up after ~5s).
+          const tryScroll = () => {
+            const target = document.getElementById("portfolio");
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              return true;
+            }
+            return false;
+          };
+
+          if (tryScroll()) return;
+
+          let attempts = 0;
+          const maxAttempts = 50; // ~5 seconds at 100ms interval
+          const iv = setInterval(() => {
+            attempts += 1;
+            if (tryScroll() || attempts >= maxAttempts) {
+              clearInterval(iv);
+            }
+          }, 100);
+        }}
+      >
         <img src={arrowSvg} style={{ height: "3rem", width: "3rem" }} alt={imageAltText} width="48" height="48" />
       </a>
       <div className="scrollGradient" aria-hidden="true" />
+      {/* Toast: listen for global show-toast events to reuse the same toast CSS */}
+      <HomeToast />
     </section>
+  );
+};
+
+// Small toast component reused inside Home via a window event
+const HomeToast = () => {
+  const [toast, setToast] = useState({ visible: false, message: '' });
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      const msg = e?.detail?.message || '';
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setToast({ visible: true, message: msg });
+      timerRef.current = setTimeout(() => setToast({ visible: false, message: '' }), 3000);
+    };
+    window.addEventListener('show-toast', handler);
+    return () => {
+      window.removeEventListener('show-toast', handler);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  return (
+    <div role="status" aria-live="polite" className={`toast ${toast.visible ? 'visible' : ''}`} aria-hidden={!toast.visible}>
+      <div className="toastMessage">{toast.message}</div>
+      <button className="toastClose" onClick={() => setToast({ visible: false, message: '' })} aria-label="Dismiss notification">×</button>
+    </div>
   );
 };
 

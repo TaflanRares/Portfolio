@@ -46,13 +46,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Montserrat';
-  src: url('./Fonts/montserrat-v31/montserrat-v31-latin_latin-ext-800.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* Use border-box everywhere to avoid size calculations causing overflow */
 *,*::before,*::after{box-sizing:border-box}
@@ -193,7 +186,7 @@ h2 {
   color: white;
   opacity: 0.98;
   font-size: clamp(1rem, 1.2vw, 1.25rem);
-  font-weight: 700;
+  font-weight: 600;
   text-align: left;
   display: inline-flex;
   align-items: center;
@@ -229,7 +222,7 @@ p {
   font-size: 18px;
   line-height: 1.5;
   margin-bottom: 0;
-  font-weight: 300;
+  font-weight: 200;
 }
 
 p.large {
@@ -271,6 +264,96 @@ a:hover {
   justify-content: center;
   padding: 0 1rem;
 }
+
+/* Utility: visually hidden but accessible to screen readers */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Copy email button next to social icons */
+.copyEmailBtn {
+  margin-left: 0; /* spacing handled by parent container (.footerPrimarySocials) */
+  background: transparent;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+.copyEmailBtn img { display: block; }
+.copyEmailBtn:hover,
+.copyEmailBtn:focus {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.04);
+  outline: none;
+}
+
+/* Footer primary socials: evenly space GitHub, LinkedIn, Email */
+.footerPrimarySocials {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly; /* let flex distribute icons evenly */
+  gap: 0.5rem;
+  width: auto; /* remove fixed width so layout is fluid */
+}
+/* Ensure direct children don't add extra margin that breaks space-between */
+.footerPrimarySocials a,
+.footerPrimarySocials button {
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 480px) {
+  .footerPrimarySocials { gap: 0.35rem; }
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.25rem;
+  min-width: 220px;
+  max-width: calc(100% - 2rem);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.toastMessage {
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+}
+.toastClose {
+  background: transparent;
+  border: 0;
+  color: rgba(255,255,255,0.9);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+}
+.toastClose:focus { outline: 2px solid rgba(255,255,255,0.12); border-radius: 4px; }
 
 .container .box {
   border-radius: 10px;
@@ -374,6 +457,67 @@ a:hover {
   }
 }
 
+/* Simple, green scrollbar that visually starts below the fixed header */
+:root {
+  --scrollbar-width: 12px;
+  --accent-green: 12,101,61; /* RGB for #0c653d */
+  --header-mask-height: 56px; /* fallback header area to mask scrollbar under header */
+}
+
+/* Firefox */
+html {
+  scrollbar-color: rgba(var(--accent-green),0.92) transparent;
+  scrollbar-width: thin;
+}
+
+/* WebKit-based browsers */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-green),0.92);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  transition: background 140ms ease, transform 140ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-green),1);
+  transform: scale(1.02);
+}
+
+/* Hide scrollbars on small screens (mobile) so they don't appear */
+@media (max-width: 768px) {
+  /* Firefox */
+  html {
+    scrollbar-width: none;
+  }
+
+  /* WebKit */
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* Ensure header mask not needed on small screens */
+  .siteHeader::after {
+    display: none;
+  }
+}
+
+/* Header mask: fixed overlay at the right edge that matches the header
+   background so the scrollbar thumb is not visible while under the header. */
+/* removed overlay mask — we now move the header left by the scrollbar
+  width so the scrollbar does not overlap the header (scrollbars are
+  drawn by the browser and often cannot be covered reliably). */
+
 /* Per-project image slot above each project */
 .projectImageWrap {
   width: 100%;
@@ -471,6 +615,14 @@ img.socialIcon {
   transform: translateY(-3px) scale(1.06);
 }
 
+/* Make footer primary socials jump the same way as home icons */
+.footerPrimarySocials a:hover .homeSocialIcon,
+.footerPrimarySocials a:focus .homeSocialIcon,
+.footerPrimarySocials button:hover .homeSocialIcon,
+.footerPrimarySocials button:focus .homeSocialIcon {
+  transform: translateY(-3px) scale(1.06);
+}
+
 /* Scroll-down button (light gradient background behind arrow) */
 .scrollDown {
   position: absolute;
@@ -527,7 +679,10 @@ img.socialIcon {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  /* leave space on the right equal to the scrollbar width so the
+     header does not sit under the scrollbar (scrollbars are often
+     rendered above page content and cannot be covered by overlays). */
+  right: var(--scrollbar-width, 0px);
   z-index: 60;
   background: rgba(255,255,255,0.92);
   box-shadow: 0 1px 0 rgba(0,0,0,0.04);

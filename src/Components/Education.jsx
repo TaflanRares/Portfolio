@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import image from "../images/motion-background.jpg";
 
 const Education = () => {
   const [expandedItems, setExpandedItems] = useState({});
+
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined" && window.location.hash === "#education") {
+        const el = document.getElementById("education");
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+        }
+      }
+    } catch (e) {
+      // Safe no-op if DOM not available
+    }
+  }, []);
 
   const toggleExpand = (id) => {
     setExpandedItems(prev => ({

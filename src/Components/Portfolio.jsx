@@ -8,7 +8,7 @@
  * as you continue to learn and create.
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import LinguaAstraImg from "../images/projects/LinguaAstra.webp";
 import BazeleElectrotehniciiVRImg from "../images/projects/BazeleElectrotehniciiVR.webp";
@@ -58,6 +58,20 @@ const projectList = [
 
 const Portfolio = () => {
   const [expandedProjects, setExpandedProjects] = useState({});
+
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined" && window.location.hash === "#portfolio") {
+        const el = document.getElementById("portfolio");
+        if (el) {
+          // Wait a tick so layout settles after mount, then scroll into view
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+        }
+      }
+    } catch (e) {
+      // no-op in environments without DOM
+    }
+  }, []);
 
   const toggleExpand = (title, e) => {
     e.preventDefault();
