@@ -23,7 +23,7 @@ import PropTypes from "prop-types";
  * Need an image? Check out https://unsplash.com to download a photo you
  * freely use on your site.
  */
-import image from "../images/image_home1.jpg";
+import image from "../images/image_home1.webp";
 
 const imageAltText = "Forest";
 
@@ -99,7 +99,7 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
         <div className="homeSocials" style={{ marginTop: "0.5rem" }}>
           {gitHub && (
             <a href={`https://github.com/${gitHub}`} target="_blank" rel="noopener noreferrer">
-              <img src={gitHubIcon} alt="GitHub" className="homeSocialIcon" />
+              <img src={gitHubIcon} alt="GitHub" className="homeSocialIcon" width="42" height="42" />
             </a>
           )}
           {linkedIn && (
@@ -108,12 +108,12 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src={linkedInIcon} alt="LinkedIn" className="homeSocialIcon" />
+              <img src={linkedInIcon} alt="LinkedIn" className="homeSocialIcon" width="42" height="42" />
             </a>
           )}
           {email && (
             <a href={`mailto:${email}`} aria-label="Email">
-              <img src={envelopeIcon} alt="Email" className="homeSocialIcon" />
+              <img src={envelopeIcon} alt="Email" className="homeSocialIcon" width="42" height="42" />
             </a>
           )}
         </div>
@@ -122,7 +122,7 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
         Brașov, Romania
       </div>
       <a href="#portfolio" className="scrollDown" aria-label="Scroll to Portfolio">
-        <img src={arrowSvg} style={{ height: "3rem", width: "3rem" }} alt={imageAltText} />
+        <img src={arrowSvg} style={{ height: "3rem", width: "3rem" }} alt={imageAltText} width="48" height="48" />
       </a>
       <div className="scrollGradient" aria-hidden="true" />
     </section>

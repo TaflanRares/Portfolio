@@ -13,7 +13,14 @@ const Education = () => {
 
   return (
     <section className="padding" id="education">
-      <img className="background" src={image} alt="education background" />
+      <img 
+        className="background" 
+        src={image} 
+        alt="education background"
+        loading="lazy"
+        width="1920"
+        height="1080"
+      />
       <div
         className="educationContent"
         style={{

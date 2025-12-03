@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rareș Taflan — Portfolio</title>
+
+    <!-- Preload critical home background image for faster LCP -->
+    <link rel="preload" as="image" href="/src/images/image_home1.webp" type="image/webp" />
+
+    <!-- Inline minimal critical CSS -->
+    <style>
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      html{scroll-behavior:smooth;scroll-padding-top:0.5rem}
+      body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;overflow-x:hidden;width:100%}
+      #main{display:flex;flex-direction:column;width:100%}
+      section{position:relative;width:100%}
+      section.min-height{min-height:100vh}
+      img{max-width:100%;height:auto;display:block}
+      header{position:fixed;top:0;width:100%;z-index:10;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+      #home{min-height:100vh;position:relative}
+      #home .background{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+      .homeText{position:absolute;top:7rem;left:3rem;color:white;opacity:0.85}
+    </style>
+
+    <!-- Main stylesheet (loads non-blocking) -->
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>

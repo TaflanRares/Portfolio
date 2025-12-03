@@ -5,7 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rareș Taflan — Portfolio</title>
-    <link rel="stylesheet" href="styles.css" />
+    
+    <!-- Preconnect to Google Fonts for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Preload critical home background image for faster LCP -->
+    <link rel="preload" as="image" href="images/image_home1.webp" type="image/webp" />
+    
+    <!-- Inline critical CSS for above-the-fold content -->
+    <style>
+      /* Critical CSS - renders immediately */
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      html{scroll-behavior:smooth;scroll-padding-top:0.5rem}
+      body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;overflow-x:hidden;width:100%}
+      #main{display:flex;flex-direction:column;width:100%}
+      section{position:relative;width:100%}
+      section.min-height{min-height:100vh}
+      img{max-width:100%;height:auto;display:block}
+      /* Header critical styles */
+      header{position:fixed;top:0;width:100%;z-index:10;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+      /* Home section critical styles */
+      #home{min-height:100vh;position:relative}
+      #home .background{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+      .homeText{position:absolute;top:7rem;left:3rem;color:white;opacity:0.85}
+    </style>
+    
+    <!-- Load fonts with font-display swap for better performance -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;400;600;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;400;600;800&display=swap" /></noscript>
+    
+    <!-- Main stylesheet loads after critical CSS -->
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="styles.css" /></noscript>
     
   </head>
   <body>

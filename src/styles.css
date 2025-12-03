@@ -2,13 +2,70 @@
 * CSS file to hold styles that apply across the application
 */
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;400;600;800&display=swap");
+/* Self-hosted fonts - no external requests, faster loading */
+
+/* Cormorant Garamond - Serif font for headings */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('./Fonts/cormorant-garamond-v21/cormorant-garamond-v21-latin_latin-ext-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('./Fonts/cormorant-garamond-v21/cormorant-garamond-v21-latin_latin-ext-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat - Sans-serif font for body text */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Fonts/montserrat-v31/montserrat-v31-latin_latin-ext-200.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Fonts/montserrat-v31/montserrat-v31-latin_latin-ext-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Fonts/montserrat-v31/montserrat-v31-latin_latin-ext-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Fonts/montserrat-v31/montserrat-v31-latin_latin-ext-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* Use border-box everywhere to avoid size calculations causing overflow */
 *,*::before,*::after{box-sizing:border-box}
 
-/* Prevent images from escaping their containers */
-img{max-width:100%;height:auto;display:block}
+/* Prevent images from escaping their containers and optimize rendering */
+img{
+  max-width:100%;
+  height:auto;
+  display:block;
+  /* Optimize image rendering for smoother experience */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
 
 html{
   scroll-behavior: smooth;
@@ -16,12 +73,16 @@ html{
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   height: 100%;
   margin: 0;
   overflow-x: hidden;
   padding: 0;
   width: 100%;
+  /* Optimize text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 div#main {
@@ -233,19 +294,6 @@ a:hover {
   width: 100%;
 }
 
-#portfolio .portfolioHero {
-  flex: 0 0 40%;
-  align-self: center;
-}
-
-#portfolio .portfolioImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 8px;
-}
-
 /* Mobile: stack projects vertically and hide the hero image */
 @media (max-width: 768px) {
   /* Split name on mobile: first and last name on separate lines */
@@ -266,11 +314,6 @@ a:hover {
   #portfolio .portfolioInner {
     flex-direction: column;
     padding: 0 1rem;
-  }
-
-  /* Hide the decorative hero image on small screens */
-  #portfolio .portfolioHero {
-    display: none;
   }
 
   /* Make the project grid a single column for vertical list */

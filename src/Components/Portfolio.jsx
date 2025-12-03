@@ -10,10 +10,10 @@
 
 import React, { useState } from "react";
 
-import LinguaAstraImg from "../images/projects/LinguaAstra.png";
-import BazeleElectrotehniciiVRImg from "../images/projects/BazeleElectrotehniciiVR.png";
-import ReactImg from "../images/projects/ReactLogo.png";
-import BESTImg from "../images/projects/BESTLogoVisiniu.png";
+import LinguaAstraImg from "../images/projects/LinguaAstra.webp";
+import BazeleElectrotehniciiVRImg from "../images/projects/BazeleElectrotehniciiVR.webp";
+import ReactImg from "../images/projects/ReactLogo.webp";
+import BESTImg from "../images/projects/BESTLogoVisiniu.webp";
 
 /**
  * Project list
@@ -91,7 +91,14 @@ const Portfolio = () => {
                 <LinkTag {...linkProps}>
                   <div className="projectImageWrap">
                     {project.image ? (
-                      <img src={project.image} className="projectImage" alt={project.title} />
+                      <img 
+                        src={project.image} 
+                        className="projectImage" 
+                        alt={project.title}
+                        loading="lazy"
+                        width="800"
+                        height="450"
+                      />
                     ) : (
                       <div className="projectImagePlaceholder" aria-hidden="true">
                         No image
