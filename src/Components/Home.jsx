@@ -28,6 +28,20 @@ import image from "../images/image_home1.jpg";
 const imageAltText = "Forest";
 
 const Home = ({ name, title, gitHub, linkedIn, email }) => {
+  // Split name into first and last for mobile
+  const nameParts = name.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+  
+  // Split name into letters with random offsets
+  const nameLetters = name.split('').map((letter, i) => ({
+    letter,
+    offsetX: (Math.random() - 0.5) * 120,
+    offsetY: (Math.random() - 0.5) * 80,
+    rotation: (Math.random() - 0.5) * 30,
+    delay: i * 0.06
+  }));
+
   return (
     <section id="home" className="min-height">
       <img className="background" src={image} alt="" />
@@ -41,7 +55,46 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
           opacity: "0.85",
         }}
       >
-        <h1 style={{ margin: 0 }}>{name}</h1>
+        <h1 style={{ margin: 0 }} className="nameAnimated">
+          <span className="firstName">
+            {firstName.split('').map((letter, i) => (
+              <span
+                key={i}
+                className="letter"
+                data-letter-index={i}
+                style={{
+                  '--offset-x': `${nameLetters[i].offsetX}px`,
+                  '--offset-y': `${nameLetters[i].offsetY}px`,
+                  '--rotation': `${nameLetters[i].rotation}deg`,
+                  '--delay': `${nameLetters[i].delay}s`
+                }}
+              >
+                {letter}
+              </span>
+            ))}
+          </span>
+          <span className="nameBreak"> </span>
+          <span className="lastName">
+            {lastName.split('').map((letter, i) => {
+              const letterIndex = firstName.length + 1 + i;
+              return (
+                <span
+                  key={letterIndex}
+                  className="letter"
+                  data-letter-index={letterIndex}
+                  style={{
+                    '--offset-x': `${nameLetters[letterIndex].offsetX}px`,
+                    '--offset-y': `${nameLetters[letterIndex].offsetY}px`,
+                    '--rotation': `${nameLetters[letterIndex].rotation}deg`,
+                    '--delay': `${nameLetters[letterIndex].delay}s`
+                  }}
+                >
+                  {letter}
+                </span>
+              );
+            })}
+          </span>
+        </h1>
         <h2 style={{ marginTop: "0.25rem" }}>{title}</h2>
         <div className="homeSocials" style={{ marginTop: "0.5rem" }}>
           {gitHub && (

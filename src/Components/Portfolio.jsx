@@ -8,7 +8,7 @@
  * as you continue to learn and create.
  */
 
-import React from "react";
+import React, { useState } from "react";
 
 import LinguaAstraImg from "../images/projects/LinguaAstra.png";
 import BazeleElectrotehniciiVRImg from "../images/projects/BazeleElectrotehniciiVR.png";
@@ -57,12 +57,24 @@ const projectList = [
 ];
 
 const Portfolio = () => {
+  const [expandedProjects, setExpandedProjects] = useState({});
+
+  const toggleExpand = (title, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedProjects(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }));
+  };
+
   return (
     <section className="padding" id="portfolio">
       <h2 style={{ textAlign: "center" }}>Portfolio</h2>
       <div className="portfolioInner" style={{ paddingTop: "3rem" }}>
         <div className="container">
           {projectList.map((project) => {
+            const isExpanded = expandedProjects[project.title];
             const hasUrl = project.url && project.url.trim() !== "";
             const LinkTag = hasUrl ? "a" : "div";
             const linkProps = hasUrl
@@ -90,7 +102,18 @@ const Portfolio = () => {
                   <h3 style={{ flexBasis: "40px" }}>{project.title}</h3>
                 </LinkTag>
 
-                <p className="small">{project.description}</p>
+                <p className="small projectDescription">
+                  <span className={isExpanded ? "expanded" : "truncated"}>
+                    {project.description}
+                  </span>
+                  <button 
+                    className="readMoreBtn" 
+                    onClick={(e) => toggleExpand(project.title, e)}
+                    aria-label={isExpanded ? "Show less" : "Read more"}
+                  >
+                    {isExpanded ? " Show less" : "..."}
+                  </button>
+                </p>
                 <div className="projectSkills" aria-label={`${project.title} skills`}>
                   {(project.skills || []).map((skill) => (
                     <span className="skillChip" key={skill} aria-hidden="true">

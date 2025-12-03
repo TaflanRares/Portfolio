@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import image from "../images/motion-background.jpg";
 
 const Education = () => {
+  const [expandedItems, setExpandedItems] = useState({});
+
+  const toggleExpand = (id) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
   return (
     <section className="padding" id="education">
       <img className="background" src={image} alt="education background" />
       <div
+        className="educationContent"
         style={{
           backgroundColor: "white",
           width: "60%",
@@ -22,9 +32,18 @@ const Education = () => {
           <p className="small" style={{ marginTop: "0.25rem" }}>
             Bachelor of Computer Engineering — Started 2024
           </p>
-          <p style={{ marginTop: "0.5rem" }}>
-            Coursework includes core computer engineering topics. Currently pursuing studies while
-            contributing to projects and competitions.
+          <p className="educationDescription" style={{ marginTop: "0.5rem" }}>
+            <span className={expandedItems['unitbv'] ? "expanded" : "truncated"}>
+              Coursework includes core computer engineering topics. Currently pursuing studies while
+              contributing to projects and competitions.
+            </span>
+            <button 
+              className="readMoreBtn"
+              onClick={() => toggleExpand('unitbv')}
+              aria-label={expandedItems['unitbv'] ? "Show less" : "Read more"}
+            >
+              {expandedItems['unitbv'] ? " Show less" : "..."}
+            </button>
           </p>
         </div>
 
@@ -36,11 +55,20 @@ const Education = () => {
             National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and Artificial
             Intelligence course - 2025.
           </p>
-          <p style={{ marginTop: "0.5rem" }}>
-            Completed training focused on applied cybersecurity techniques and practical AI
-            applications relevant to software and systems engineering.
-            <br></br>
-            <small>ASEPNS nr 8356/02.06.2025</small>
+          <p className="educationDescription" style={{ marginTop: "0.5rem" }}>
+            <span className={expandedItems['pnrr'] ? "expanded" : "truncated"}>
+              Completed training focused on applied cybersecurity techniques and practical AI
+              applications relevant to software and systems engineering.
+              <br></br>
+              <small>ASEPNS nr 8356/02.06.2025</small>
+            </span>
+            <button 
+              className="readMoreBtn"
+              onClick={() => toggleExpand('pnrr')}
+              aria-label={expandedItems['pnrr'] ? "Show less" : "Read more"}
+            >
+              {expandedItems['pnrr'] ? " Show less" : "..."}
+            </button>
           </p>
         </div>
 
@@ -51,9 +79,18 @@ const Education = () => {
           <p className="small" style={{ marginTop: "0.25rem" }}>
             Mathematics and Computer Science — Graduated 2024
           </p>
-          <p style={{ marginTop: "0.5rem" }}>
-            Developed basic programming skills and mathematical foundations. Participated in various
-            competitions and olympiads. Honourable mention at 2023 National English Olympiad.
+          <p className="educationDescription" style={{ marginTop: "0.5rem" }}>
+            <span className={expandedItems['highschool'] ? "expanded" : "truncated"}>
+              Developed basic programming skills and mathematical foundations. Participated in various
+              competitions and olympiads. Honourable mention at 2023 National English Olympiad.
+            </span>
+            <button 
+              className="readMoreBtn"
+              onClick={() => toggleExpand('highschool')}
+              aria-label={expandedItems['highschool'] ? "Show less" : "Read more"}
+            >
+              {expandedItems['highschool'] ? " Show less" : "..."}
+            </button>
           </p>
         </div>
       </div>

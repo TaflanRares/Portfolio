@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [showName, setShowName] = useState(false);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -28,10 +29,42 @@ const Header = () => {
     };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      const homeSection = document.getElementById('home');
+      const portfolioSection = document.getElementById('portfolio');
+      
+      if (homeSection && portfolioSection) {
+        const homeRect = homeSection.getBoundingClientRect();
+        const portfolioRect = portfolioSection.getBoundingClientRect();
+        
+        // Show name when portfolio is in view, hide when scrolled back to home
+        if (portfolioRect.top < window.innerHeight * 0.7 && homeRect.bottom < 100) {
+          if (!showName) {
+            setShowName(true);
+            document.documentElement.classList.add('letters-animating');
+          }
+        } else if (homeRect.bottom > 100) {
+          if (showName) {
+            setShowName(false);
+            document.documentElement.classList.remove('letters-animating');
+          }
+        }
+      }
+    };
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Check initial state
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [showName]);
+
   return (
     <header className="siteHeader" role="banner">
       <div className="headerInner">
-        <div className="brand" aria-hidden="true"></div>
+        <div className="brand" aria-hidden="true">
+          <div className={`headerName ${showName ? 'visible' : ''}`}>
+            Rareș Taflan
+          </div>
+        </div>
 
         <button
           className="hamburger"
