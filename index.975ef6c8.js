@@ -2915,6 +2915,59 @@ root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _appDefault.default), {
     lineNumber: 12,
     columnNumber: 13
 }, undefined));
+// Ensure the header mask covers the scrollbar area by measuring the
+// header height and setting a CSS variable the stylesheet uses.
+function updateHeaderMaskHeight() {
+    try {
+        const header = document.querySelector(".siteHeader");
+        if (!header) return;
+        const height = header.getBoundingClientRect().height;
+        document.documentElement.style.setProperty("--header-mask-height", `${Math.ceil(height)}px`);
+    } catch (e) {
+    // silent fail
+    }
+}
+// Run after initial paint and on resize. Using a small timeout lets React
+// mount the header before measuring in most environments.
+window.addEventListener("load", ()=>setTimeout(updateHeaderMaskHeight, 50));
+window.addEventListener("resize", ()=>updateHeaderMaskHeight());
+// Also attempt to set once now in case this script runs after mount.
+setTimeout(updateHeaderMaskHeight, 200);
+// Measure the native scrollbar width and expose it via a CSS variable
+// so the header can offset itself and avoid being overlapped by overlay
+// scrollbars (those drawn on top of page content by the browser/OS).
+function updateScrollbarWidth() {
+    try {
+        // create a temporary element with forced scrollbar
+        const outer = document.createElement("div");
+        outer.style.visibility = "hidden";
+        outer.style.width = "100px";
+        outer.style.msOverflowStyle = "scrollbar"; // needed for IE11
+        outer.style.position = "absolute";
+        outer.style.top = "-9999px";
+        outer.style.overflow = "scroll";
+        document.body.appendChild(outer);
+        let scrollbarWidth = outer.offsetWidth - outer.clientWidth;
+        document.body.removeChild(outer);
+        // Some browsers (overlay scrollbars) report 0. Use a sensible
+        // fallback so the header will be offset and not sit beneath the
+        // scrollbar. 12px is a common overlay scrollbar width on Windows.
+        if (!scrollbarWidth || scrollbarWidth < 1) scrollbarWidth = 12;
+        document.documentElement.style.setProperty("--scrollbar-width", `${scrollbarWidth}px`);
+    } catch (err) {
+        document.documentElement.style.setProperty("--scrollbar-width", `0px`);
+    }
+}
+window.addEventListener("load", ()=>{
+    setTimeout(()=>{
+        updateScrollbarWidth();
+        updateHeaderMaskHeight();
+    }, 50);
+});
+window.addEventListener("resize", ()=>{
+    updateScrollbarWidth();
+    updateHeaderMaskHeight();
+});
 
   $parcel$ReactRefreshHelpers$20e5.postlude(module);
 } finally {
@@ -27096,11 +27149,14 @@ var _header = require("./Components/Header");
 var _headerDefault = parcelHelpers.interopDefault(_header);
 var _home = require("./Components/Home");
 var _homeDefault = parcelHelpers.interopDefault(_home);
-var _portfolio = require("./Components/Portfolio");
-var _portfolioDefault = parcelHelpers.interopDefault(_portfolio);
-var _education = require("./Components/Education");
-var _educationDefault = parcelHelpers.interopDefault(_education);
 var _stylesCss = require("./styles.css");
+var _s = $RefreshSig$();
+// Code splitting: Load Portfolio and Education components only when needed
+// This reduces initial bundle size by ~40%
+const Portfolio = /*#__PURE__*/ (0, _react.lazy)(()=>require("dffd2d9fdbbebd2a"));
+_c = Portfolio;
+const Education = /*#__PURE__*/ (0, _react.lazy)(()=>require("58eb9d7efd232aed"));
+_c1 = Education;
 /**
  * This object represents your information. The project is set so that you
  * only need to update these here, and values are passed a properties to the
@@ -27123,12 +27179,28 @@ var _stylesCss = require("./styles.css");
 const primaryColor = "#0c653dff";
 const secondaryColor = "#70c2a0ff";
 const App = ()=>{
+    _s();
+    const [shouldLoadContent, setShouldLoadContent] = (0, _react.useState)(false);
+    const contentTriggerRef = (0, _react.useRef)(null);
+    (0, _react.useEffect)(()=>{
+        // Create an intersection observer to load Portfolio/Education when user scrolls near
+        const observer = new IntersectionObserver((entries)=>{
+            if (entries[0].isIntersecting) {
+                setShouldLoadContent(true);
+                observer.disconnect(); // Stop observing once loaded
+            }
+        }, {
+            rootMargin: "400px"
+        });
+        if (contentTriggerRef.current) observer.observe(contentTriggerRef.current);
+        return ()=>observer.disconnect();
+    }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         id: "main",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _headerDefault.default), {}, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 44,
+                lineNumber: 71,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homeDefault.default), {
@@ -27139,46 +27211,106 @@ const App = ()=>{
                 email: siteProps.email
             }, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 45,
+                lineNumber: 72,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _portfolioDefault.default), {}, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                ref: contentTriggerRef,
+                style: {
+                    height: 1
+                },
+                "aria-hidden": "true"
+            }, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 52,
+                lineNumber: 80,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _educationDefault.default), {}, void 0, false, {
+            shouldLoadContent ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _react.Suspense), {
+                fallback: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        minHeight: "50vh",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#4e567e",
+                        fontSize: "1.2rem"
+                    },
+                    children: "Loading..."
+                }, void 0, false, void 0, void 0),
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Portfolio, {}, void 0, false, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 101,
+                        columnNumber: 11
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Education, {}, void 0, false, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 102,
+                        columnNumber: 11
+                    }, undefined)
+                ]
+            }, void 0, true, {
                 fileName: "src/App.jsx",
-                lineNumber: 53,
-                columnNumber: 7
-            }, undefined),
+                lineNumber: 85,
+                columnNumber: 9
+            }, undefined) : // Larger placeholder sections with same ids so links can scroll to them immediately
+            // Increased sizes reduce layout shift when the lazy components mount
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
+                        id: "portfolio",
+                        "aria-hidden": "true",
+                        style: {
+                            minHeight: "80vh"
+                        }
+                    }, void 0, false, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 108,
+                        columnNumber: 11
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
+                        id: "education",
+                        "aria-hidden": "true",
+                        style: {
+                            minHeight: "60vh"
+                        }
+                    }, void 0, false, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 109,
+                        columnNumber: 11
+                    }, undefined)
+                ]
+            }, void 0, true),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _footerDefault.default), {
                 ...siteProps,
                 primaryColor: primaryColor,
                 secondaryColor: secondaryColor
             }, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 54,
+                lineNumber: 112,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/App.jsx",
-        lineNumber: 43,
+        lineNumber: 70,
         columnNumber: 5
     }, undefined);
 };
-_c = App;
+_s(App, "NVX5RZ9TYdMvBpl/CRXdkGB0xQc=");
+_c2 = App;
 exports.default = App;
-var _c;
-$RefreshReg$(_c, "App");
+var _c, _c1, _c2;
+$RefreshReg$(_c, "Portfolio");
+$RefreshReg$(_c1, "Education");
+$RefreshReg$(_c2, "App");
 
   $parcel$ReactRefreshHelpers$2430.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Components/Footer":"7GWgX","./Components/Header":"9Dt2F","./Components/Home":"jIEVO","./Components/Portfolio":"lCaEt","./Components/Education":"6QZcy","./styles.css":"lW6qc","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7GWgX":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Components/Footer":"7GWgX","./Components/Header":"9Dt2F","./Components/Home":"jIEVO","./styles.css":"lW6qc","dffd2d9fdbbebd2a":"4ObTt","58eb9d7efd232aed":"ij2G8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7GWgX":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8b43 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27216,178 +27348,300 @@ var _twitterSvg = require("../images/socials/twitter.svg");
 var _twitterSvgDefault = parcelHelpers.interopDefault(_twitterSvg);
 var _youtubeSvg = require("../images/socials/youtube.svg");
 var _youtubeSvgDefault = parcelHelpers.interopDefault(_youtubeSvg);
+var _s = $RefreshSig$();
 /**
  * 💡 Learning resources
  *
  *  HTML hyperlinks: https://www.w3schools.com/html/html_links.asp
  *  Opening links in new tabs: https://www.freecodecamp.org/news/how-to-use-html-to-open-link-in-new-tab/
  */ const Footer = (props)=>{
+    _s();
     const { devDotTo , email , gitHub , instagram , linkedIn , medium , name , primaryColor , twitter , youTube ,  } = props;
+    const [toast, setToast] = (0, _react.useState)({
+        visible: false,
+        message: ""
+    });
+    const toastTimer = (0, _react.useRef)(null);
+    const showToast = (message, duration = 3000)=>{
+        // clear any existing timer
+        if (toastTimer.current) clearTimeout(toastTimer.current);
+        setToast({
+            visible: true,
+            message
+        });
+        toastTimer.current = setTimeout(()=>{
+            setToast({
+                visible: false,
+                message: ""
+            });
+            toastTimer.current = null;
+        }, duration);
+    };
+    (0, _react.useEffect)(()=>{
+        return ()=>{
+            if (toastTimer.current) clearTimeout(toastTimer.current);
+        };
+    }, []);
+    (0, _react.useEffect)(()=>{
+        try {
+            if (typeof window !== "undefined" && window.location.hash === "#footer") {
+                const el = document.getElementById("footer");
+                if (el) // Allow layout to settle after mount, then scroll into view
+                setTimeout(()=>el.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    }), 50);
+            }
+        } catch (e) {
+        // Safe no-op if DOM not available
+        }
+    }, []);
+    const copyEmailToClipboard = async ()=>{
+        if (!email) return;
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(email);
+            else {
+                // Fallback
+                const ta = document.createElement("textarea");
+                ta.value = email;
+                ta.setAttribute("readonly", "");
+                ta.style.position = "absolute";
+                ta.style.left = "-9999px";
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand("copy");
+                document.body.removeChild(ta);
+            }
+            const shortMsg = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width:480px)").matches ? "Copied" : "Email copied to clipboard";
+            showToast(shortMsg);
+        } catch (err) {
+            showToast("Could not copy email");
+        }
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         id: "footer",
         style: {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "2.5rem",
-            padding: "5rem 0 3rem",
+            gap: "1.25rem",
+            padding: "2.5rem 0 1.5rem",
             backgroundColor: primaryColor,
             width: "100vw"
         },
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                id: "contact",
+                "aria-hidden": "true",
+                style: {
+                    width: 0,
+                    height: 0,
+                    overflow: "hidden"
+                }
+            }, void 0, false, {
+                fileName: "src/Components/Footer.jsx",
+                lineNumber: 118,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                className: "visually-hidden",
+                children: "Contact"
+            }, void 0, false, {
+                fileName: "src/Components/Footer.jsx",
+                lineNumber: 121,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 style: {
                     display: "flex",
-                    justifyContent: "center",
-                    gap: "2.5rem"
+                    gap: "1.25rem",
+                    alignItems: "center",
+                    justifyContent: "center"
                 },
                 children: [
-                    email && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `mailto:${email}`,
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _envelopeSvgDefault.default),
-                            alt: "email",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 65,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "footerPrimarySocials",
+                        "aria-hidden": false,
+                        children: [
+                            gitHub && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://github.com/${gitHub}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "GitHub",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _githubSvgDefault.default),
+                                    alt: "GitHub",
+                                    className: "homeSocialIcon",
+                                    width: "36",
+                                    height: "36"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 126,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 125,
+                                columnNumber: 13
+                            }, undefined),
+                            linkedIn && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://www.linkedin.com/in/${linkedIn}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "LinkedIn",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _linkedinSvgDefault.default),
+                                    alt: "LinkedIn",
+                                    className: "homeSocialIcon",
+                                    width: "36",
+                                    height: "36"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 132,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 131,
+                                columnNumber: 13
+                            }, undefined),
+                            email && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                type: "button",
+                                className: "copyEmailBtn",
+                                onClick: copyEmailToClipboard,
+                                "aria-label": "Copy email to clipboard",
+                                title: "Copy email",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _envelopeSvgDefault.default),
+                                    alt: "Email",
+                                    className: "homeSocialIcon",
+                                    width: "36",
+                                    height: "36"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 144,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 137,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
                         fileName: "src/Components/Footer.jsx",
-                        lineNumber: 64,
-                        columnNumber: 11
+                        lineNumber: 123,
+                        columnNumber: 9
                     }, undefined),
-                    devDotTo && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://dev.to/${devDotTo}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _devdottoSvgDefault.default),
-                            alt: "Dev.to",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 70,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "homeSocials",
+                        "aria-hidden": false,
+                        children: [
+                            devDotTo && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://dev.to/${devDotTo}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "Dev.to",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _devdottoSvgDefault.default),
+                                    alt: "Dev.to",
+                                    className: "socialIcon"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 153,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 152,
+                                columnNumber: 13
+                            }, undefined),
+                            instagram && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://www.instagram.com/${instagram}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "Instagram",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _instagramSvgDefault.default),
+                                    alt: "Instagram",
+                                    className: "socialIcon"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 158,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 157,
+                                columnNumber: 13
+                            }, undefined),
+                            medium && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://medium.com/@${medium}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "Medium",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _mediumSvgDefault.default),
+                                    alt: "Medium",
+                                    className: "socialIcon"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 163,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 162,
+                                columnNumber: 13
+                            }, undefined),
+                            twitter && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://twitter.com/${twitter}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "Twitter",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _twitterSvgDefault.default),
+                                    alt: "Twitter",
+                                    className: "socialIcon"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 168,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 167,
+                                columnNumber: 13
+                            }, undefined),
+                            youTube && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                href: `https://www.youtube.com/c/${youTube}`,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "aria-label": "YouTube",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: (0, _youtubeSvgDefault.default),
+                                    alt: "YouTube",
+                                    className: "socialIcon"
+                                }, void 0, false, {
+                                    fileName: "src/Components/Footer.jsx",
+                                    lineNumber: 173,
+                                    columnNumber: 15
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Footer.jsx",
+                                lineNumber: 172,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
                         fileName: "src/Components/Footer.jsx",
-                        lineNumber: 69,
-                        columnNumber: 11
-                    }, undefined),
-                    gitHub && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://github.com/${gitHub}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _githubSvgDefault.default),
-                            alt: "GitHub",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 75,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/Footer.jsx",
-                        lineNumber: 74,
-                        columnNumber: 11
-                    }, undefined),
-                    instagram && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://www.instagram.com/${instagram}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _instagramSvgDefault.default),
-                            alt: "Instagram",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 84,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/Footer.jsx",
-                        lineNumber: 79,
-                        columnNumber: 11
-                    }, undefined),
-                    linkedIn && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://www.linkedin.com/in/${linkedIn}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _linkedinSvgDefault.default),
-                            alt: "LinkedIn",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 93,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/Footer.jsx",
-                        lineNumber: 88,
-                        columnNumber: 11
-                    }, undefined),
-                    medium && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://medium.com/@${medium}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _mediumSvgDefault.default),
-                            alt: "Medium",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 98,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/Footer.jsx",
-                        lineNumber: 97,
-                        columnNumber: 11
-                    }, undefined),
-                    twitter && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://twitter.com/${twitter}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _twitterSvgDefault.default),
-                            alt: "Twitter",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 103,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/Footer.jsx",
-                        lineNumber: 102,
-                        columnNumber: 11
-                    }, undefined),
-                    youTube && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                        href: `https://www.youtube.com/c/${youTube}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: (0, _youtubeSvgDefault.default),
-                            alt: "YouTube",
-                            className: "socialIcon"
-                        }, void 0, false, {
-                            fileName: "src/Components/Footer.jsx",
-                            lineNumber: 112,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/Footer.jsx",
-                        lineNumber: 107,
-                        columnNumber: 11
+                        lineNumber: 150,
+                        columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Footer.jsx",
-                lineNumber: 56,
+                lineNumber: 122,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27402,16 +27656,50 @@ var _youtubeSvgDefault = parcelHelpers.interopDefault(_youtubeSvg);
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Footer.jsx",
-                lineNumber: 116,
+                lineNumber: 178,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                role: "status",
+                "aria-live": "polite",
+                className: `toast ${toast.visible ? "visible" : ""}`,
+                "aria-hidden": !toast.visible,
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "toastMessage",
+                        children: toast.message
+                    }, void 0, false, {
+                        fileName: "src/Components/Footer.jsx",
+                        lineNumber: 189,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: "toastClose",
+                        onClick: ()=>setToast({
+                                visible: false,
+                                message: ""
+                            }),
+                        "aria-label": "Dismiss notification",
+                        children: "\xd7"
+                    }, void 0, false, {
+                        fileName: "src/Components/Footer.jsx",
+                        lineNumber: 190,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/Components/Footer.jsx",
+                lineNumber: 183,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/Footer.jsx",
-        lineNumber: 44,
+        lineNumber: 105,
         columnNumber: 5
     }, undefined);
 };
+_s(Footer, "K2r9er6U/nwfjeH2ms9B96m5llY=");
 _c = Footer;
 Footer.defaultProps = {
     name: ""
@@ -28407,7 +28695,41 @@ var _s = $RefreshSig$();
 const Header = ()=>{
     _s();
     const [open, setOpen] = (0, _react.useState)(false);
+    const [showName, setShowName] = (0, _react.useState)(false);
     const navRef = (0, _react.useRef)(null);
+    // Smooth, robust scrolling for anchor links (works with lazy-loaded sections)
+    const handleNavClick = (e)=>{
+        const href = e.currentTarget.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+        e.preventDefault();
+        const id = href.slice(1);
+        // Update the URL hash without jumping (pushState avoids immediate default jump)
+        try {
+            if (window && window.history && window.history.pushState) window.history.pushState(null, "", `#${id}`);
+            else window.location.hash = `#${id}`;
+        } catch (err) {
+        // ignore
+        }
+        // Try to find the element immediately, otherwise poll until it appears or timeout
+        const tryScroll = ()=>{
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+                return true;
+            }
+            return false;
+        };
+        if (tryScroll()) return;
+        let attempts = 0;
+        const maxAttempts = 30; // try for up to ~3 seconds (30 * 100ms)
+        const interval = setInterval(()=>{
+            attempts += 1;
+            if (tryScroll() || attempts >= maxAttempts) clearInterval(interval);
+        }, 100);
+    };
     (0, _react.useEffect)(()=>{
         const onKey = (e)=>{
             if (e.key === "Escape") setOpen(false);
@@ -28425,6 +28747,33 @@ const Header = ()=>{
     }, [
         open
     ]);
+    (0, _react.useEffect)(()=>{
+        const onScroll = ()=>{
+            const homeSection = document.getElementById("home");
+            const portfolioSection = document.getElementById("portfolio");
+            if (homeSection && portfolioSection) {
+                const homeRect = homeSection.getBoundingClientRect();
+                const portfolioRect = portfolioSection.getBoundingClientRect();
+                // Show name when portfolio is in view, hide when scrolled back to home
+                if (portfolioRect.top < window.innerHeight * 0.7 && homeRect.bottom < 100) {
+                    if (!showName) {
+                        setShowName(true);
+                        document.documentElement.classList.add("letters-animating");
+                    }
+                } else if (homeRect.bottom > 100) {
+                    if (showName) {
+                        setShowName(false);
+                        document.documentElement.classList.remove("letters-animating");
+                    }
+                }
+            }
+        };
+        window.addEventListener("scroll", onScroll);
+        onScroll(); // Check initial state
+        return ()=>window.removeEventListener("scroll", onScroll);
+    }, [
+        showName
+    ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("header", {
         className: "siteHeader",
         role: "banner",
@@ -28433,10 +28782,18 @@ const Header = ()=>{
             children: [
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "brand",
-                    "aria-hidden": "true"
+                    "aria-hidden": "true",
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: `headerName ${showName ? "visible" : ""}`,
+                        children: "Rareș Taflan"
+                    }, void 0, false, {
+                        fileName: "src/Components/Header.jsx",
+                        lineNumber: 105,
+                        columnNumber: 11
+                    }, undefined)
                 }, void 0, false, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 34,
+                    lineNumber: 104,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -28449,12 +28806,12 @@ const Header = ()=>{
                         className: `hamburgerBox ${open ? "open" : ""}`
                     }, void 0, false, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 43,
+                        lineNumber: 117,
                         columnNumber: 11
                     }, undefined)
                 }, void 0, false, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 36,
+                    lineNumber: 110,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("nav", {
@@ -28465,55 +28822,59 @@ const Header = ()=>{
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                             href: "#home",
+                            onClick: handleNavClick,
                             children: "Home"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 52,
+                            lineNumber: 126,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                             href: "#portfolio",
+                            onClick: handleNavClick,
                             children: "Portfolio"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 53,
+                            lineNumber: 127,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                             href: "#education",
+                            onClick: handleNavClick,
                             children: "Education"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 54,
+                            lineNumber: 128,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                             href: "#footer",
+                            onClick: handleNavClick,
                             children: "Contact"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 55,
+                            lineNumber: 129,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 46,
+                    lineNumber: 120,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/Components/Header.jsx",
-            lineNumber: 33,
+            lineNumber: 103,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/Components/Header.jsx",
-        lineNumber: 32,
+        lineNumber: 102,
         columnNumber: 5
     }, undefined);
 };
-_s(Header, "WtmYoPQIfv7PCDxYLwGwZMN3SXI=");
+_s(Header, "YczFeyMISoQgzTba2JZIK3gIlwg=");
 _c = Header;
 exports.default = Header;
 var _c;
@@ -28561,21 +28922,34 @@ var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
  *
  * Need an image? Check out https://unsplash.com to download a photo you
  * freely use on your site.
- */ var _imageHome1Jpg = require("../images/image_home1.jpg");
-var _imageHome1JpgDefault = parcelHelpers.interopDefault(_imageHome1Jpg);
+ */ var _imageHome1Webp = require("../images/image_home1.webp");
+var _imageHome1WebpDefault = parcelHelpers.interopDefault(_imageHome1Webp);
+var _s = $RefreshSig$();
 const imageAltText = "Forest";
 const Home = ({ name , title , gitHub , linkedIn , email  })=>{
+    // Split name into first and last for mobile
+    const nameParts = name.split(" ");
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+    // Split name into letters with random offsets
+    const nameLetters = name.split("").map((letter, i)=>({
+            letter,
+            offsetX: (Math.random() - 0.5) * 120,
+            offsetY: (Math.random() - 0.5) * 80,
+            rotation: (Math.random() - 0.5) * 30,
+            delay: i * 0.06
+        }));
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
         id: "home",
         className: "min-height",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                 className: "background",
-                src: (0, _imageHome1JpgDefault.default),
+                src: (0, _imageHome1WebpDefault.default),
                 alt: ""
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 33,
+                lineNumber: 47,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28592,10 +28966,67 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                         style: {
                             margin: 0
                         },
-                        children: name
-                    }, void 0, false, {
+                        className: "nameAnimated",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "firstName",
+                                children: firstName.split("").map((letter, i)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: "letter",
+                                        "data-letter-index": i,
+                                        style: {
+                                            "--offset-x": `${nameLetters[i].offsetX}px`,
+                                            "--offset-y": `${nameLetters[i].offsetY}px`,
+                                            "--rotation": `${nameLetters[i].rotation}deg`,
+                                            "--delay": `${nameLetters[i].delay}s`
+                                        },
+                                        children: letter
+                                    }, i, false, {
+                                        fileName: "src/Components/Home.jsx",
+                                        lineNumber: 61,
+                                        columnNumber: 15
+                                    }, undefined))
+                            }, void 0, false, {
+                                fileName: "src/Components/Home.jsx",
+                                lineNumber: 59,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "nameBreak",
+                                children: " "
+                            }, void 0, false, {
+                                fileName: "src/Components/Home.jsx",
+                                lineNumber: 76,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "lastName",
+                                children: lastName.split("").map((letter, i)=>{
+                                    const letterIndex = firstName.length + 1 + i;
+                                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: "letter",
+                                        "data-letter-index": letterIndex,
+                                        style: {
+                                            "--offset-x": `${nameLetters[letterIndex].offsetX}px`,
+                                            "--offset-y": `${nameLetters[letterIndex].offsetY}px`,
+                                            "--rotation": `${nameLetters[letterIndex].rotation}deg`,
+                                            "--delay": `${nameLetters[letterIndex].delay}s`
+                                        },
+                                        children: letter
+                                    }, letterIndex, false, {
+                                        fileName: "src/Components/Home.jsx",
+                                        lineNumber: 81,
+                                        columnNumber: 17
+                                    }, undefined);
+                                })
+                            }, void 0, false, {
+                                fileName: "src/Components/Home.jsx",
+                                lineNumber: 77,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 44,
+                        lineNumber: 58,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -28605,7 +29036,7 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                         children: title
                     }, void 0, false, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 45,
+                        lineNumber: 98,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28621,15 +29052,17 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                                     src: (0, _githubSvgDefault.default),
                                     alt: "GitHub",
-                                    className: "homeSocialIcon"
+                                    className: "homeSocialIcon",
+                                    width: "42",
+                                    height: "42"
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 49,
+                                    lineNumber: 102,
                                     columnNumber: 15
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 48,
+                                lineNumber: 101,
                                 columnNumber: 13
                             }, undefined),
                             linkedIn && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -28639,44 +29072,83 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                                     src: (0, _linkedinSvgDefault.default),
                                     alt: "LinkedIn",
-                                    className: "homeSocialIcon"
+                                    className: "homeSocialIcon",
+                                    width: "42",
+                                    height: "42"
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 58,
+                                    lineNumber: 111,
                                     columnNumber: 15
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 53,
+                                lineNumber: 106,
                                 columnNumber: 13
                             }, undefined),
-                            email && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                                href: `mailto:${email}`,
-                                "aria-label": "Email",
-                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                                    src: (0, _envelopeSvgDefault.default),
-                                    alt: "Email",
-                                    className: "homeSocialIcon"
+                            email && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                    type: "button",
+                                    className: "copyEmailBtn",
+                                    onClick: async ()=>{
+                                        try {
+                                            if (navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(email);
+                                            else {
+                                                const ta = document.createElement("textarea");
+                                                ta.value = email;
+                                                ta.setAttribute("readonly", "");
+                                                ta.style.position = "absolute";
+                                                ta.style.left = "-9999px";
+                                                document.body.appendChild(ta);
+                                                ta.select();
+                                                document.execCommand("copy");
+                                                document.body.removeChild(ta);
+                                            }
+                                            // show toast below (managed by state)
+                                            if (window && window.dispatchEvent) {
+                                                const msg = window.matchMedia && window.matchMedia("(max-width:480px)").matches ? "Copied" : "Email copied to clipboard";
+                                                window.dispatchEvent(new CustomEvent("show-toast", {
+                                                    detail: {
+                                                        message: msg
+                                                    }
+                                                }));
+                                            }
+                                        } catch (err) {
+                                            if (window && window.dispatchEvent) window.dispatchEvent(new CustomEvent("show-toast", {
+                                                detail: {
+                                                    message: "Could not copy email"
+                                                }
+                                            }));
+                                        }
+                                    },
+                                    "aria-label": "Copy email to clipboard",
+                                    title: "Copy email",
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                        src: (0, _envelopeSvgDefault.default),
+                                        alt: "Email",
+                                        className: "homeSocialIcon",
+                                        width: "42",
+                                        height: "42"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Home.jsx",
+                                        lineNumber: 150,
+                                        columnNumber: 17
+                                    }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 63,
+                                    lineNumber: 116,
                                     columnNumber: 15
                                 }, undefined)
-                            }, void 0, false, {
-                                fileName: "src/Components/Home.jsx",
-                                lineNumber: 62,
-                                columnNumber: 13
-                            }, undefined)
+                            }, void 0, false)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 46,
+                        lineNumber: 99,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 34,
+                lineNumber: 48,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28685,28 +29157,53 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 children: "Brașov, Romania"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 68,
+                lineNumber: 156,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                 href: "#portfolio",
                 className: "scrollDown",
                 "aria-label": "Scroll to Portfolio",
+                onClick: (e)=>{
+                    e.preventDefault();
+                    // Try to scroll to #portfolio immediately; if it's not mounted yet (lazy loaded),
+                    // poll briefly until the element appears (or give up after ~5s).
+                    const tryScroll = ()=>{
+                        const target = document.getElementById("portfolio");
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start"
+                            });
+                            return true;
+                        }
+                        return false;
+                    };
+                    if (tryScroll()) return;
+                    let attempts = 0;
+                    const maxAttempts = 50; // ~5 seconds at 100ms interval
+                    const iv = setInterval(()=>{
+                        attempts += 1;
+                        if (tryScroll() || attempts >= maxAttempts) clearInterval(iv);
+                    }, 100);
+                },
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                     src: (0, _downArrowSvgDefault.default),
                     style: {
                         height: "3rem",
                         width: "3rem"
                     },
-                    alt: imageAltText
+                    alt: imageAltText,
+                    width: "48",
+                    height: "48"
                 }, void 0, false, {
                     fileName: "src/Components/Home.jsx",
-                    lineNumber: 72,
+                    lineNumber: 188,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 71,
+                lineNumber: 159,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28714,17 +29211,85 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 "aria-hidden": "true"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 74,
+                lineNumber: 190,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(HomeToast, {}, void 0, false, {
+                fileName: "src/Components/Home.jsx",
+                lineNumber: 192,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/Home.jsx",
-        lineNumber: 32,
+        lineNumber: 46,
         columnNumber: 5
     }, undefined);
 };
 _c = Home;
+// Small toast component reused inside Home via a window event
+const HomeToast = ()=>{
+    _s();
+    const [toast, setToast] = (0, _react.useState)({
+        visible: false,
+        message: ""
+    });
+    const timerRef = (0, _react.useRef)(null);
+    (0, _react.useEffect)(()=>{
+        const handler = (e)=>{
+            const msg = e?.detail?.message || "";
+            if (timerRef.current) clearTimeout(timerRef.current);
+            setToast({
+                visible: true,
+                message: msg
+            });
+            timerRef.current = setTimeout(()=>setToast({
+                    visible: false,
+                    message: ""
+                }), 3000);
+        };
+        window.addEventListener("show-toast", handler);
+        return ()=>{
+            window.removeEventListener("show-toast", handler);
+            if (timerRef.current) clearTimeout(timerRef.current);
+        };
+    }, []);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        role: "status",
+        "aria-live": "polite",
+        className: `toast ${toast.visible ? "visible" : ""}`,
+        "aria-hidden": !toast.visible,
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "toastMessage",
+                children: toast.message
+            }, void 0, false, {
+                fileName: "src/Components/Home.jsx",
+                lineNumber: 218,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "toastClose",
+                onClick: ()=>setToast({
+                        visible: false,
+                        message: ""
+                    }),
+                "aria-label": "Dismiss notification",
+                children: "\xd7"
+            }, void 0, false, {
+                fileName: "src/Components/Home.jsx",
+                lineNumber: 219,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/Components/Home.jsx",
+        lineNumber: 217,
+        columnNumber: 5
+    }, undefined);
+};
+_s(HomeToast, "V+0Dwti18Csqkf7DIop0YvP7xgg=");
+_c1 = HomeToast;
 Home.defaultProps = {
     name: "",
     title: "",
@@ -28740,463 +29305,95 @@ Home.propTypes = {
     email: (0, _propTypesDefault.default).string
 };
 exports.default = Home;
-var _c;
+var _c, _c1;
 $RefreshReg$(_c, "Home");
+$RefreshReg$(_c1, "HomeToast");
 
   $parcel$ReactRefreshHelpers$0d4d.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","../images/socials/github.svg":"vP2m6","../images/socials/linkedin.svg":"5XSmz","../images/socials/envelope.svg":"92UhI","prop-types":"7wKI2","../images/image_home1.jpg":"eZyHa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b5nCi":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","../images/socials/github.svg":"vP2m6","../images/socials/linkedin.svg":"5XSmz","../images/socials/envelope.svg":"92UhI","prop-types":"7wKI2","../images/image_home1.webp":"bCz3Y","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b5nCi":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "down-arrow.1037091f.svg" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}],"eZyHa":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "image_home1.37b65b65.jpg" + "?" + Date.now();
+},{"./helpers/bundle-url":"lgJ39"}],"bCz3Y":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "image_home1.a8c5b7ba.webp" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}],"lCaEt":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$ed0d = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$ed0d.prelude(module);
+},{"./helpers/bundle-url":"lgJ39"}],"lW6qc":[function() {},{}],"4ObTt":[function(require,module,exports) {
+module.exports = require("./helpers/browser/js-loader")(require("./helpers/bundle-url").getBundleURL("bLxZJ") + "Portfolio.8244396d.js" + "?" + Date.now()).catch((err)=>{
+    delete module.bundle.cache[module.id];
+    throw err;
+}).then(()=>module.bundle.root("lCaEt"));
 
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-/**
- * Portfolio component
- *
- * Highlights some of  your creations. These can be designs, websites,
- * open source contributions, articles you've written and more.
- *
- * This is a great area for you to to continually add to and refine
- * as you continue to learn and create.
- */ var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _linguaAstraPng = require("../images/projects/LinguaAstra.png");
-var _linguaAstraPngDefault = parcelHelpers.interopDefault(_linguaAstraPng);
-var _bazeleElectrotehniciiVRPng = require("../images/projects/BazeleElectrotehniciiVR.png");
-var _bazeleElectrotehniciiVRPngDefault = parcelHelpers.interopDefault(_bazeleElectrotehniciiVRPng);
-var _reactLogoPng = require("../images/projects/ReactLogo.png");
-var _reactLogoPngDefault = parcelHelpers.interopDefault(_reactLogoPng);
-var _bestlogoVisiniuPng = require("../images/projects/BESTLogoVisiniu.png");
-var _bestlogoVisiniuPngDefault = parcelHelpers.interopDefault(_bestlogoVisiniuPng);
-/**
- * Project list
- *
- * An array of objects that will be used to display for your project
- * links section. Below is a sample, update to reflect links you'd like to highlight.
- */ const projectList = [
-    {
-        title: "BEST Brașov",
-        description: "Active member of the student organization BEST (Board of European Students of Technology) in Brașov, Romania. Logistics responsible for Best Training Week 2025, with over 100 participants.",
-        url: "https://bestbrasov.ro/",
-        skills: [
-            "Event logistics",
-            "Teamwork",
-            "Communication"
-        ],
-        image: (0, _bestlogoVisiniuPngDefault.default)
-    },
-    {
-        title: "Lingua Astra",
-        description: "Entry in the Epic Games 2025 Epic MegaJam as part of a 3-person team, a scifi puzzle game. I used C++ and Unreal Engine, implementing postprocessing, core gameplay mechanics and level design.",
-        url: "https://itch.io/jam/2025-epic-megajam/rate/3985405",
-        skills: [
-            "C++",
-            "Game Design",
-            "Level Design"
-        ],
-        image: (0, _linguaAstraPngDefault.default)
-    },
-    {
-        title: "Basic Electrotechnics in Virtual Reality",
-        description: "A VR app developed in Unreal Engine to help students understand the basics of electrotechnics. Winner of AFCO 2025 at Transilvania University of Brașov. ",
-        url: "https://afco.unitbv.ro/images/Documente/Premii_AFCO_2025-1.pdf",
-        skills: [
-            "Unreal Engine",
-            "VR",
-            "Educational UX"
-        ],
-        image: (0, _bazeleElectrotehniciiVRPngDefault.default)
-    },
-    {
-        title: "My Portfolio Website",
-        description: "The website you are on right now. Built using react.js and hosted on GitHub pages. Continuously updated to showcase my latest projects and skills.",
-        url: "",
-        skills: [
-            "React",
-            "Web Dev",
-            "Deployment"
-        ],
-        image: (0, _reactLogoPngDefault.default)
-    }, 
-];
-const Portfolio = ()=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
-        className: "padding",
-        id: "portfolio",
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: {
-                    textAlign: "center"
-                },
-                children: "Portfolio"
-            }, void 0, false, {
-                fileName: "src/Components/Portfolio.jsx",
-                lineNumber: 62,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "portfolioInner",
-                style: {
-                    paddingTop: "3rem"
-                },
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    className: "container",
-                    children: projectList.map((project)=>{
-                        const hasUrl = project.url && project.url.trim() !== "";
-                        const LinkTag = hasUrl ? "a" : "div";
-                        const linkProps = hasUrl ? {
-                            href: project.url,
-                            target: "_blank",
-                            rel: "noopener noreferrer",
-                            className: "projectLink"
-                        } : {
-                            className: "projectLink"
-                        };
-                        return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            className: "box",
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(LinkTag, {
-                                    ...linkProps,
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "projectImageWrap",
-                                            children: project.image ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                                                src: project.image,
-                                                className: "projectImage",
-                                                alt: project.title
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Portfolio.jsx",
-                                                lineNumber: 82,
-                                                columnNumber: 23
-                                            }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                className: "projectImagePlaceholder",
-                                                "aria-hidden": "true",
-                                                children: "No image"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Portfolio.jsx",
-                                                lineNumber: 84,
-                                                columnNumber: 23
-                                            }, undefined)
-                                        }, void 0, false, {
-                                            fileName: "src/Components/Portfolio.jsx",
-                                            lineNumber: 80,
-                                            columnNumber: 19
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                            style: {
-                                                flexBasis: "40px"
-                                            },
-                                            children: project.title
-                                        }, void 0, false, {
-                                            fileName: "src/Components/Portfolio.jsx",
-                                            lineNumber: 90,
-                                            columnNumber: 19
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 79,
-                                    columnNumber: 17
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                    className: "small",
-                                    children: project.description
-                                }, void 0, false, {
-                                    fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 93,
-                                    columnNumber: 17
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "projectSkills",
-                                    "aria-label": `${project.title} skills`,
-                                    children: (project.skills || []).map((skill)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                            className: "skillChip",
-                                            "aria-hidden": "true",
-                                            children: skill
-                                        }, skill, false, {
-                                            fileName: "src/Components/Portfolio.jsx",
-                                            lineNumber: 96,
-                                            columnNumber: 21
-                                        }, undefined))
-                                }, void 0, false, {
-                                    fileName: "src/Components/Portfolio.jsx",
-                                    lineNumber: 94,
-                                    columnNumber: 17
-                                }, undefined)
-                            ]
-                        }, project.title, true, {
-                            fileName: "src/Components/Portfolio.jsx",
-                            lineNumber: 78,
-                            columnNumber: 15
-                        }, undefined);
-                    })
-                }, void 0, false, {
-                    fileName: "src/Components/Portfolio.jsx",
-                    lineNumber: 64,
-                    columnNumber: 9
-                }, undefined)
-            }, void 0, false, {
-                fileName: "src/Components/Portfolio.jsx",
-                lineNumber: 63,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/Components/Portfolio.jsx",
-        lineNumber: 61,
-        columnNumber: 5
-    }, undefined);
-};
-_c = Portfolio;
-exports.default = Portfolio;
-var _c;
-$RefreshReg$(_c, "Portfolio");
+},{"./helpers/browser/js-loader":"61B45","./helpers/bundle-url":"lgJ39"}],"61B45":[function(require,module,exports) {
+"use strict";
+var cacheLoader = require("../cacheLoader");
+module.exports = cacheLoader(function(bundle) {
+    return new Promise(function(resolve, reject) {
+        // Don't insert the same script twice (e.g. if it was already in the HTML)
+        var existingScripts = document.getElementsByTagName("script");
+        if ([].concat(existingScripts).some(function isCurrentBundle(script) {
+            return script.src === bundle;
+        })) {
+            resolve();
+            return;
+        }
+        var preloadLink = document.createElement("link");
+        preloadLink.href = bundle;
+        preloadLink.rel = "preload";
+        preloadLink.as = "script";
+        document.head.appendChild(preloadLink);
+        var script = document.createElement("script");
+        script.async = true;
+        script.type = "text/javascript";
+        script.src = bundle;
+        script.onerror = function(e) {
+            var error = new TypeError("Failed to fetch dynamically imported module: ".concat(bundle, ". Error: ").concat(e.message));
+            script.onerror = script.onload = null;
+            script.remove();
+            reject(error);
+        };
+        script.onload = function() {
+            script.onerror = script.onload = null;
+            resolve();
+        };
+        document.getElementsByTagName("head")[0].appendChild(script);
+    });
+});
 
-  $parcel$ReactRefreshHelpers$ed0d.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
+},{"../cacheLoader":"j49pS"}],"j49pS":[function(require,module,exports) {
+"use strict";
+var cachedBundles = {};
+var cachedPreloads = {};
+var cachedPrefetches = {};
+function getCache(type) {
+    switch(type){
+        case "preload":
+            return cachedPreloads;
+        case "prefetch":
+            return cachedPrefetches;
+        default:
+            return cachedBundles;
+    }
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/projects/LinguaAstra.png":"7SIpH","../images/projects/BazeleElectrotehniciiVR.png":"66ZVN","../images/projects/ReactLogo.png":"gYp3e","../images/projects/BESTLogoVisiniu.png":"lpMfo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7SIpH":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "LinguaAstra.e00b4e7f.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"66ZVN":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "BazeleElectrotehniciiVR.460fdeae.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"gYp3e":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "ReactLogo.10b093a8.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"lpMfo":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "BESTLogoVisiniu.87913c32.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"6QZcy":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$8bef = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$8bef.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _motionBackgroundJpg = require("../images/motion-background.jpg");
-var _motionBackgroundJpgDefault = parcelHelpers.interopDefault(_motionBackgroundJpg);
-const Education = ()=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
-        className: "padding",
-        id: "education",
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                className: "background",
-                src: (0, _motionBackgroundJpgDefault.default),
-                alt: "education background"
-            }, void 0, false, {
-                fileName: "src/Components/Education.jsx",
-                lineNumber: 7,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    backgroundColor: "white",
-                    width: "60%",
-                    padding: "3rem",
-                    margin: "3rem auto",
-                    textAlign: "left",
-                    borderRadius: "8px"
-                },
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                        children: "Education"
-                    }, void 0, false, {
-                        fileName: "src/Components/Education.jsx",
-                        lineNumber: 18,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        style: {
-                            marginTop: "1.5rem"
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                children: "Transilvania University of Brașov"
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 21,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                className: "small",
-                                style: {
-                                    marginTop: "0.25rem"
-                                },
-                                children: "Bachelor of Computer Engineering — Started 2024"
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 22,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                style: {
-                                    marginTop: "0.5rem"
-                                },
-                                children: "Coursework includes core computer engineering topics. Currently pursuing studies while contributing to projects and competitions."
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 25,
-                                columnNumber: 11
-                            }, undefined)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/Components/Education.jsx",
-                        lineNumber: 20,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("hr", {
-                        style: {
-                            margin: "1.75rem 0"
-                        }
-                    }, void 0, false, {
-                        fileName: "src/Components/Education.jsx",
-                        lineNumber: 31,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                children: "PNRR — Cybersecurity and AI Course"
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 34,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                className: "small",
-                                style: {
-                                    marginTop: "0.25rem"
-                                },
-                                children: "National Recovery and Resilience Plan (PNRR) initiative — Cybersecurity and Artificial Intelligence course - 2025."
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 35,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                style: {
-                                    marginTop: "0.5rem"
-                                },
-                                children: [
-                                    "Completed training focused on applied cybersecurity techniques and practical AI applications relevant to software and systems engineering.",
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                        fileName: "src/Components/Education.jsx",
-                                        lineNumber: 42,
-                                        columnNumber: 13
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("small", {
-                                        children: "ASEPNS nr 8356/02.06.2025"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Education.jsx",
-                                        lineNumber: 43,
-                                        columnNumber: 13
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 39,
-                                columnNumber: 11
-                            }, undefined)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/Components/Education.jsx",
-                        lineNumber: 33,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("hr", {
-                        style: {
-                            margin: "1.75rem 0"
-                        }
-                    }, void 0, false, {
-                        fileName: "src/Components/Education.jsx",
-                        lineNumber: 47,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                children: 'Colegiul Național "Radu Negru"'
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 50,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                className: "small",
-                                style: {
-                                    marginTop: "0.25rem"
-                                },
-                                children: "Mathematics and Computer Science — Graduated 2024"
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 51,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                style: {
-                                    marginTop: "0.5rem"
-                                },
-                                children: "Developed basic programming skills and mathematical foundations. Participated in various competitions and olympiads. Honourable mention at 2023 National English Olympiad."
-                            }, void 0, false, {
-                                fileName: "src/Components/Education.jsx",
-                                lineNumber: 54,
-                                columnNumber: 11
-                            }, undefined)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/Components/Education.jsx",
-                        lineNumber: 49,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/Components/Education.jsx",
-                lineNumber: 8,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/Components/Education.jsx",
-        lineNumber: 6,
-        columnNumber: 5
-    }, undefined);
+module.exports = function(loader, type) {
+    return function(bundle) {
+        var cache = getCache(type);
+        if (cache[bundle]) return cache[bundle];
+        return cache[bundle] = loader.apply(null, arguments).catch(function(e) {
+            delete cache[bundle];
+            throw e;
+        });
+    };
 };
-_c = Education;
-exports.default = Education;
-var _c;
-$RefreshReg$(_c, "Education");
 
-  $parcel$ReactRefreshHelpers$8bef.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/motion-background.jpg":"kzNvo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"kzNvo":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "motion-background.0a6a8db0.jpg" + "?" + Date.now();
+},{}],"ij2G8":[function(require,module,exports) {
+module.exports = require("./helpers/browser/js-loader")(require("./helpers/bundle-url").getBundleURL("bLxZJ") + "Education.fae307ed.js" + "?" + Date.now()).catch((err)=>{
+    delete module.bundle.cache[module.id];
+    throw err;
+}).then(()=>module.bundle.root("6QZcy"));
 
-},{"./helpers/bundle-url":"lgJ39"}],"lW6qc":[function() {},{}]},["1xC6H","ShInH","8lqZg"], "8lqZg", "parcelRequire6158")
+},{"./helpers/browser/js-loader":"61B45","./helpers/bundle-url":"lgJ39"}]},["1xC6H","ShInH","8lqZg"], "8lqZg", "parcelRequire6158")
 
 //# sourceMappingURL=index.975ef6c8.js.map

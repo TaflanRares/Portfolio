@@ -1,4 +1,43 @@
-@import "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;400;600;800&display=swap";
+@font-face {
+  font-family: Cormorant Garamond;
+  src: url("cormorant-garamond-v21-latin_latin-ext-300.1fba7246.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Cormorant Garamond;
+  src: url("cormorant-garamond-v21-latin_latin-ext-regular.52726706.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url("montserrat-v31-latin_latin-ext-200.5bd8dcbd.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url("montserrat-v31-latin_latin-ext-regular.a89616fd.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url("montserrat-v31-latin_latin-ext-600.b3061bbb.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 *, :before, :after {
   box-sizing: border-box;
 }
@@ -6,6 +45,8 @@
 img {
   max-width: 100%;
   height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   display: block;
 }
 
@@ -17,9 +58,12 @@ html {
 body {
   height: 100%;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
   margin: 0;
   padding: 0;
-  font-family: Montserrat, sans-serif;
+  font-family: Montserrat, system-ui, -apple-system, Segoe UI, sans-serif;
   overflow-x: hidden;
 }
 
@@ -86,6 +130,34 @@ h2 {
   font-weight: 400;
 }
 
+.nameAnimated {
+  display: inline-block;
+  position: relative;
+}
+
+.nameAnimated .letter {
+  transform: translate(var(--offset-x), var(--offset-y)) rotate(var(--rotation));
+  opacity: 0;
+  animation: letterAppear .6s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: all .8s cubic-bezier(.68, -.55, .265, 1.55);
+  display: inline-block;
+  position: relative;
+}
+
+@keyframes letterAppear {
+  to {
+    opacity: 1;
+    transform: translate(0)rotate(0deg);
+  }
+}
+
+.letters-animating .nameAnimated .letter {
+  opacity: 0;
+  transition: all .8s cubic-bezier(.68, -.55, .265, 1.55);
+  transform: translate(0)rotate(0deg);
+}
+
 .homeLocation {
   color: #fff;
   opacity: .98;
@@ -95,7 +167,7 @@ h2 {
   align-items: center;
   gap: .5rem;
   font-size: clamp(1rem, 1.2vw, 1.25rem);
-  font-weight: 700;
+  font-weight: 600;
   display: inline-flex;
   position: absolute;
   bottom: 3rem;
@@ -128,7 +200,7 @@ h3 {
 p {
   margin-bottom: 0;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 200;
   line-height: 1.5;
 }
 
@@ -172,6 +244,105 @@ a:hover {
   display: grid;
 }
 
+.visually-hidden {
+  height: 1px;
+  width: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute !important;
+}
+
+.copyEmailBtn {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0;
+  padding: .15rem;
+  transition: transform .16s, background .16s;
+  display: inline-flex;
+}
+
+.copyEmailBtn img {
+  display: block;
+}
+
+.copyEmailBtn:hover, .copyEmailBtn:focus {
+  background: #ffffff0a;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.footerPrimarySocials {
+  width: auto;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: .5rem;
+  display: flex;
+}
+
+.footerPrimarySocials a, .footerPrimarySocials button {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 480px) {
+  .footerPrimarySocials {
+    gap: .35rem;
+  }
+}
+
+.toast {
+  min-width: 220px;
+  max-width: calc(100% - 2rem);
+  color: #fff;
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: #000000d9;
+  border-radius: 8px;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 1rem;
+  transition: opacity .22s, transform .22s;
+  display: flex;
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1rem;
+  transform: translateY(6px);
+  box-shadow: 0 8px 24px #0006;
+}
+
+.toast.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.toastMessage {
+  flex: auto;
+  font-size: .95rem;
+}
+
+.toastClose {
+  color: #ffffffe6;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: .1rem .3rem;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.toastClose:focus {
+  border-radius: 4px;
+  outline: 2px solid #ffffff1f;
+}
+
 .container .box {
   text-align: center;
   border: 1px solid #ccc;
@@ -193,27 +364,23 @@ a:hover {
   display: flex;
 }
 
-#portfolio .portfolioHero {
-  flex: 0 0 40%;
-  align-self: center;
-}
-
-#portfolio .portfolioImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-}
-
 @media (max-width: 768px) {
+  #home h1 {
+    font-size: clamp(5rem, 12vw, 7rem);
+  }
+
+  #home .homeText {
+    left: 1.5rem !important;
+  }
+
+  .nameAnimated .nameBreak {
+    height: 0;
+    display: block;
+  }
+
   #portfolio .portfolioInner {
     flex-direction: column;
     padding: 0 1rem;
-  }
-
-  #portfolio .portfolioHero {
-    display: none;
   }
 
   #portfolio .container {
@@ -265,6 +432,54 @@ a:hover {
 
   #portfolio .projectImageWrap {
     height: 240px;
+  }
+}
+
+:root {
+  --scrollbar-width: 12px;
+  --accent-green: 12, 101, 61;
+  --header-mask-height: 56px;
+}
+
+html {
+  scrollbar-color: rgba(var(--accent-green), .92) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  background: none;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-green), .92);
+  border-radius: 999px;
+  transition: background .14s, transform .14s;
+  box-shadow: inset 0 0 0 1px #0000000f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-green), 1);
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  html {
+    scrollbar-width: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .siteHeader:after {
+    display: none;
   }
 }
 
@@ -353,7 +568,7 @@ img.socialIcon {
   transition: transform .16s;
 }
 
-.homeSocials a:hover .homeSocialIcon, .homeSocials a:focus .homeSocialIcon {
+.homeSocials a:hover .homeSocialIcon, .homeSocials a:focus .homeSocialIcon, .footerPrimarySocials a:hover .homeSocialIcon, .footerPrimarySocials a:focus .homeSocialIcon, .footerPrimarySocials button:hover .homeSocialIcon, .footerPrimarySocials button:focus .homeSocialIcon {
   transform: translateY(-3px)scale(1.06);
 }
 
@@ -403,23 +618,28 @@ img.socialIcon {
 }
 
 .siteHeader {
+  top: 0;
+  left: 0;
+  right: var(--scrollbar-width, 0px);
   z-index: 60;
   background: #ffffffeb;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   box-shadow: 0 1px #0000000a;
 }
 
 .headerInner {
   max-width: 1100px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
   margin: 0 auto;
   padding: .7rem 1rem;
   display: flex;
+}
+
+.brand {
+  position: absolute;
+  left: 1rem;
 }
 
 .brand a {
@@ -429,10 +649,24 @@ img.socialIcon {
   text-decoration: none;
 }
 
+.headerName {
+  color: #222;
+  opacity: 0;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all .6s ease-out;
+  transform: translateY(-10px);
+}
+
+.headerName.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .mainNav {
   align-items: center;
   gap: 1rem;
-  margin: 0 auto;
   display: flex;
 }
 
@@ -524,6 +758,50 @@ img.socialIcon {
   .mainNav a {
     border-top: 1px solid #eee;
     padding: 1rem;
+  }
+
+  .educationContent {
+    width: 90% !important;
+    padding: 2rem !important;
+  }
+
+  .projectDescription .truncated, .educationDescription .truncated {
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
+  .projectDescription .expanded, .educationDescription .expanded {
+    display: block;
+  }
+
+  .readMoreBtn {
+    color: #4e567e;
+    cursor: pointer;
+    font-size: inherit;
+    background: none;
+    border: none;
+    margin-left: .25rem;
+    padding: 0;
+    font-family: inherit;
+    text-decoration: underline;
+    display: inline;
+  }
+
+  .readMoreBtn:hover {
+    color: #2b3555;
+  }
+}
+
+@media (min-width: 769px) {
+  .readMoreBtn {
+    display: none;
+  }
+
+  .projectDescription .truncated, .projectDescription .expanded, .educationDescription .truncated, .educationDescription .expanded {
+    display: block;
   }
 }
 
