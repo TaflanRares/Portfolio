@@ -135,9 +135,9 @@ const Portfolio = () => {
                     {isExpanded ? " Show less" : "..."}
                   </button>
                 </p>
-                <div className="projectSkills" aria-label={`${project.title} skills`}>
+                <div className="projectSkills">
                   {(project.skills || []).map((skill) => (
-                    <span className="skillChip" key={skill} aria-hidden="true">
+                    <span className="skillChip" key={skill}>
                       {skill}
                     </span>
                   ))}

@@ -1,0 +1,27 @@
+{
+  "name": "Rareș Taflan — Portfolio",
+  "short_name": "RT Portfolio",
+  "description": "Computer Engineering student portfolio showcasing projects in game development, VR, web development, and open-source work",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0c653d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "portfolio", "technology"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

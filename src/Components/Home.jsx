@@ -214,9 +214,9 @@ const HomeToast = () => {
   }, []);
 
   return (
-    <div role="status" aria-live="polite" className={`toast ${toast.visible ? 'visible' : ''}`} aria-hidden={!toast.visible}>
+    <div role="status" aria-live="polite" className={`toast ${toast.visible ? 'visible' : ''}`}>
       <div className="toastMessage">{toast.message}</div>
-      <button className="toastClose" onClick={() => setToast({ visible: false, message: '' })} aria-label="Dismiss notification">×</button>
+      <button className="toastClose" onClick={() => setToast({ visible: false, message: '' })} aria-label="Dismiss notification" tabIndex={toast.visible ? 0 : -1}>×</button>
     </div>
   );
 };

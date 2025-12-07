@@ -69,46 +69,48 @@ const App = () => {
   return (
     <div id="main">
       <Header />
-      <Home
-        name={siteProps.name}
-        title={siteProps.title}
-        gitHub={siteProps.gitHub}
-        linkedIn={siteProps.linkedIn}
-        email={siteProps.email}
-      />
-      {/* Invisible trigger element - loads content when scrolling near */}
-      <div ref={contentTriggerRef} style={{ height: 1 }} aria-hidden="true" />
+      <main>
+        <Home
+          name={siteProps.name}
+          title={siteProps.title}
+          gitHub={siteProps.gitHub}
+          linkedIn={siteProps.linkedIn}
+          email={siteProps.email}
+        />
+        {/* Invisible trigger element - loads content when scrolling near */}
+        <div ref={contentTriggerRef} style={{ height: 1 }} aria-hidden="true" />
 
-      {/* Ensure an element with id="portfolio" exists immediately so anchors and the
-          Home scroll handler can target it even before the lazy component loads. */}
-      {shouldLoadContent ? (
-        <Suspense
-          fallback={
-            <div
-              style={{
-                minHeight: "50vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#4e567e",
-                fontSize: "1.2rem",
-              }}
-            >
-              Loading...
-            </div>
-          }
-        >
-          <Portfolio />
-          <Education />
-        </Suspense>
-      ) : (
-        // Larger placeholder sections with same ids so links can scroll to them immediately
-        // Increased sizes reduce layout shift when the lazy components mount
-        <>
-          <section id="portfolio" aria-hidden="true" style={{ minHeight: "80vh" }} />
-          <section id="education" aria-hidden="true" style={{ minHeight: "60vh" }} />
-        </>
-      )}
+        {/* Ensure an element with id="portfolio" exists immediately so anchors and the
+            Home scroll handler can target it even before the lazy component loads. */}
+        {shouldLoadContent ? (
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  minHeight: "50vh",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#4e567e",
+                  fontSize: "1.2rem",
+                }}
+              >
+                Loading...
+              </div>
+            }
+          >
+            <Portfolio />
+            <Education />
+          </Suspense>
+        ) : (
+          // Larger placeholder sections with same ids so links can scroll to them immediately
+          // Increased sizes reduce layout shift when the lazy components mount
+          <>
+            <section id="portfolio" aria-hidden="true" style={{ minHeight: "80vh" }} />
+            <section id="education" aria-hidden="true" style={{ minHeight: "60vh" }} />
+          </>
+        )}
+      </main>
       <Footer {...siteProps} primaryColor={primaryColor} secondaryColor={secondaryColor} />
     </div>
   );
