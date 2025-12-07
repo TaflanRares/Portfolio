@@ -110,7 +110,7 @@ const Footer = (props) => {
         alignItems: "center",
         gap: "1.25rem",
         padding: "2.5rem 0 1.5rem",
-        backgroundColor: primaryColor,
+        backgroundColor: `var(--footer-bg, ${primaryColor})`,
         width: "100vw",
       }}
     >
@@ -175,7 +175,7 @@ const Footer = (props) => {
           )}
         </div>
       </div>
-      <p className="small" style={{ marginTop: 0, color: "white" }}>
+      <p className="small" style={{ marginTop: 0, color: "var(--footer-text)" }}>
         Created by {name}
       </p>
 

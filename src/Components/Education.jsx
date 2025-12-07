@@ -37,7 +37,7 @@ const Education = () => {
       <div
         className="educationContent"
         style={{
-          backgroundColor: "white",
+          backgroundColor: "var(--card)",
           width: "60%",
           padding: "3rem",
           margin: "3rem auto",

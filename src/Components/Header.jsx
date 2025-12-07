@@ -5,11 +5,15 @@
  * user scrolls so that they can constantly reach any part of your page.
  */
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
-const Header = () => {
+const Header = ({ theme, onToggleTheme }) => {
   const [open, setOpen] = useState(false);
   const [showName, setShowName] = useState(false);
   const navRef = useRef(null);
+
+  const isDark = theme === "dark";
+  const themeLabel = isDark ? "Switch to light mode" : "Switch to dark mode";
 
   // Smooth, robust scrolling for anchor links (works with lazy-loaded sections)
   const handleNavClick = (e) => {
@@ -106,17 +110,6 @@ const Header = () => {
             Rareș Taflan
           </div>
         </div>
-
-        <button
-          className="hamburger"
-          aria-controls="mainNav"
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((s) => !s)}
-        >
-          <span className={`hamburgerBox ${open ? "open" : ""}`} />
-        </button>
-
         <nav
           id="mainNav"
           ref={navRef}
@@ -128,9 +121,38 @@ const Header = () => {
           <a href="#education" onClick={handleNavClick}>Education</a>
           <a href="#footer" onClick={handleNavClick}>Contact</a>
         </nav>
+
+        <div className="headerActions">
+          <button
+            className="themeToggle"
+            onClick={onToggleTheme}
+            aria-label={themeLabel}
+            aria-pressed={isDark}
+            type="button"
+          >
+            <span aria-hidden="true">{isDark ? "☀️" : "🌙"}</span>
+            <span className="themeToggleText">{isDark ? "Light" : "Dark"}</span>
+          </button>
+
+          <button
+            className="hamburger"
+            aria-controls="mainNav"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((s) => !s)}
+            type="button"
+          >
+            <span className={`hamburgerBox ${open ? "open" : ""}`} />
+          </button>
+        </div>
       </div>
     </header>
   );
 };
 
 export default Header;
+
+Header.propTypes = {
+  theme: PropTypes.string,
+  onToggleTheme: PropTypes.func.isRequired,
+};

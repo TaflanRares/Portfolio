@@ -43,7 +43,31 @@ const secondaryColor = "#70c2a0ff";
 
 const App = () => {
   const [shouldLoadContent, setShouldLoadContent] = useState(false);
+  const [theme, setTheme] = useState("light");
   const contentTriggerRef = useRef(null);
+
+  // Initialize theme from localStorage or system preference
+  useEffect(() => {
+    const stored = typeof window !== "undefined" ? window.localStorage.getItem("theme") : null;
+    const prefersDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = stored || (prefersDark ? "dark" : "light");
+    setTheme(initialTheme);
+    document.documentElement.dataset.theme = initialTheme;
+  }, []);
+
+  // Persist and apply theme changes
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      window.localStorage.setItem("theme", theme);
+    } catch (_) {
+      // ignore storage failures
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
     // Create an intersection observer to load Portfolio/Education when user scrolls near
@@ -68,7 +92,7 @@ const App = () => {
 
   return (
     <div id="main">
-      <Header />
+      <Header theme={theme} onToggleTheme={toggleTheme} />
       <main>
         <Home
           name={siteProps.name}
