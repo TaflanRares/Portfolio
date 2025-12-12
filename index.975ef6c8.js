@@ -2910,11 +2910,16 @@ var _app = require("./App");
 var _appDefault = parcelHelpers.interopDefault(_app);
 const container = document.getElementById("app");
 const root = (0, _client.createRoot)(container);
+// Hide loading screen once React mounts
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _appDefault.default), {}, void 0, false, {
     fileName: "src/index.js",
-    lineNumber: 12,
+    lineNumber: 14,
     columnNumber: 13
 }, undefined));
+setTimeout(()=>{
+    const loadingScreen = document.getElementById("loading-screen");
+    if (loadingScreen) loadingScreen.classList.add("hidden");
+}, 0);
 // Ensure the header mask covers the scrollbar area by measuring the
 // header height and setting a CSS variable the stylesheet uses.
 function updateHeaderMaskHeight() {
@@ -27153,9 +27158,9 @@ var _stylesCss = require("./styles.css");
 var _s = $RefreshSig$();
 // Code splitting: Load Portfolio and Education components only when needed
 // This reduces initial bundle size by ~40%
-const Portfolio = /*#__PURE__*/ (0, _react.lazy)(()=>require("dffd2d9fdbbebd2a"));
+const Portfolio = /*#__PURE__*/ (0, _react.lazy)(()=>require("3a781589b987ed21"));
 _c = Portfolio;
-const Education = /*#__PURE__*/ (0, _react.lazy)(()=>require("58eb9d7efd232aed"));
+const Education = /*#__PURE__*/ (0, _react.lazy)(()=>require("d7986622f21ea2d5"));
 _c1 = Education;
 /**
  * This object represents your information. The project is set so that you
@@ -27203,91 +27208,99 @@ const App = ()=>{
                 lineNumber: 71,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homeDefault.default), {
-                name: siteProps.name,
-                title: siteProps.title,
-                gitHub: siteProps.gitHub,
-                linkedIn: siteProps.linkedIn,
-                email: siteProps.email
-            }, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("main", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homeDefault.default), {
+                        name: siteProps.name,
+                        title: siteProps.title,
+                        gitHub: siteProps.gitHub,
+                        linkedIn: siteProps.linkedIn,
+                        email: siteProps.email
+                    }, void 0, false, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 73,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        ref: contentTriggerRef,
+                        style: {
+                            height: 1
+                        },
+                        "aria-hidden": "true"
+                    }, void 0, false, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 81,
+                        columnNumber: 9
+                    }, undefined),
+                    shouldLoadContent ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _react.Suspense), {
+                        fallback: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            style: {
+                                minHeight: "50vh",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "#4e567e",
+                                fontSize: "1.2rem"
+                            },
+                            children: "Loading..."
+                        }, void 0, false, void 0, void 0),
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Portfolio, {}, void 0, false, {
+                                fileName: "src/App.jsx",
+                                lineNumber: 102,
+                                columnNumber: 13
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Education, {}, void 0, false, {
+                                fileName: "src/App.jsx",
+                                lineNumber: 103,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 86,
+                        columnNumber: 11
+                    }, undefined) : // Larger placeholder sections with same ids so links can scroll to them immediately
+                    // Increased sizes reduce layout shift when the lazy components mount
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
+                                id: "portfolio",
+                                "aria-hidden": "true",
+                                style: {
+                                    minHeight: "80vh"
+                                }
+                            }, void 0, false, {
+                                fileName: "src/App.jsx",
+                                lineNumber: 109,
+                                columnNumber: 13
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
+                                id: "education",
+                                "aria-hidden": "true",
+                                style: {
+                                    minHeight: "60vh"
+                                }
+                            }, void 0, false, {
+                                fileName: "src/App.jsx",
+                                lineNumber: 110,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true)
+                ]
+            }, void 0, true, {
                 fileName: "src/App.jsx",
                 lineNumber: 72,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                ref: contentTriggerRef,
-                style: {
-                    height: 1
-                },
-                "aria-hidden": "true"
-            }, void 0, false, {
-                fileName: "src/App.jsx",
-                lineNumber: 80,
-                columnNumber: 7
-            }, undefined),
-            shouldLoadContent ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _react.Suspense), {
-                fallback: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        minHeight: "50vh",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#4e567e",
-                        fontSize: "1.2rem"
-                    },
-                    children: "Loading..."
-                }, void 0, false, void 0, void 0),
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Portfolio, {}, void 0, false, {
-                        fileName: "src/App.jsx",
-                        lineNumber: 101,
-                        columnNumber: 11
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Education, {}, void 0, false, {
-                        fileName: "src/App.jsx",
-                        lineNumber: 102,
-                        columnNumber: 11
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/App.jsx",
-                lineNumber: 85,
-                columnNumber: 9
-            }, undefined) : // Larger placeholder sections with same ids so links can scroll to them immediately
-            // Increased sizes reduce layout shift when the lazy components mount
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
-                        id: "portfolio",
-                        "aria-hidden": "true",
-                        style: {
-                            minHeight: "80vh"
-                        }
-                    }, void 0, false, {
-                        fileName: "src/App.jsx",
-                        lineNumber: 108,
-                        columnNumber: 11
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
-                        id: "education",
-                        "aria-hidden": "true",
-                        style: {
-                            minHeight: "60vh"
-                        }
-                    }, void 0, false, {
-                        fileName: "src/App.jsx",
-                        lineNumber: 109,
-                        columnNumber: 11
-                    }, undefined)
-                ]
-            }, void 0, true),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _footerDefault.default), {
                 ...siteProps,
                 primaryColor: primaryColor,
                 secondaryColor: secondaryColor
             }, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 112,
+                lineNumber: 114,
                 columnNumber: 7
             }, undefined)
         ]
@@ -27310,7 +27323,7 @@ $RefreshReg$(_c2, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Components/Footer":"7GWgX","./Components/Header":"9Dt2F","./Components/Home":"jIEVO","./styles.css":"lW6qc","dffd2d9fdbbebd2a":"4ObTt","58eb9d7efd232aed":"ij2G8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7GWgX":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Components/Footer":"7GWgX","./Components/Header":"9Dt2F","./Components/Home":"jIEVO","./styles.css":"lW6qc","3a781589b987ed21":"4ObTt","d7986622f21ea2d5":"ij2G8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7GWgX":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8b43 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27426,7 +27439,7 @@ var _s = $RefreshSig$();
             alignItems: "center",
             gap: "1.25rem",
             padding: "2.5rem 0 1.5rem",
-            backgroundColor: primaryColor,
+            backgroundColor: `var(--footer-bg, ${primaryColor})`,
             width: "100vw"
         },
         children: [
@@ -27648,7 +27661,7 @@ var _s = $RefreshSig$();
                 className: "small",
                 style: {
                     marginTop: 0,
-                    color: "white"
+                    color: "var(--footer-text)"
                 },
                 children: [
                     "Created by ",
@@ -27663,14 +27676,13 @@ var _s = $RefreshSig$();
                 role: "status",
                 "aria-live": "polite",
                 className: `toast ${toast.visible ? "visible" : ""}`,
-                "aria-hidden": !toast.visible,
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "toastMessage",
                         children: toast.message
                     }, void 0, false, {
                         fileName: "src/Components/Footer.jsx",
-                        lineNumber: 189,
+                        lineNumber: 188,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27680,10 +27692,11 @@ var _s = $RefreshSig$();
                                 message: ""
                             }),
                         "aria-label": "Dismiss notification",
+                        tabIndex: toast.visible ? 0 : -1,
                         children: "\xd7"
                     }, void 0, false, {
                         fileName: "src/Components/Footer.jsx",
-                        lineNumber: 190,
+                        lineNumber: 189,
                         columnNumber: 9
                     }, undefined)
                 ]
@@ -28796,24 +28809,6 @@ const Header = ()=>{
                     lineNumber: 104,
                     columnNumber: 9
                 }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                    className: "hamburger",
-                    "aria-controls": "mainNav",
-                    "aria-expanded": open,
-                    "aria-label": open ? "Close menu" : "Open menu",
-                    onClick: ()=>setOpen((s)=>!s),
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        className: `hamburgerBox ${open ? "open" : ""}`
-                    }, void 0, false, {
-                        fileName: "src/Components/Header.jsx",
-                        lineNumber: 117,
-                        columnNumber: 11
-                    }, undefined)
-                }, void 0, false, {
-                    fileName: "src/Components/Header.jsx",
-                    lineNumber: 110,
-                    columnNumber: 9
-                }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("nav", {
                     id: "mainNav",
                     ref: navRef,
@@ -28826,7 +28821,7 @@ const Header = ()=>{
                             children: "Home"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 126,
+                            lineNumber: 115,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -28835,7 +28830,7 @@ const Header = ()=>{
                             children: "Portfolio"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 127,
+                            lineNumber: 116,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -28844,7 +28839,7 @@ const Header = ()=>{
                             children: "Education"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 128,
+                            lineNumber: 117,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -28853,13 +28848,39 @@ const Header = ()=>{
                             children: "Contact"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 129,
+                            lineNumber: 118,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 120,
+                    lineNumber: 109,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "headerActions",
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: "hamburger",
+                        "aria-controls": "mainNav",
+                        "aria-expanded": open,
+                        "aria-label": open ? "Close menu" : "Open menu",
+                        onClick: ()=>setOpen((s)=>!s),
+                        type: "button",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                            className: `hamburgerBox ${open ? "open" : ""}`
+                        }, void 0, false, {
+                            fileName: "src/Components/Header.jsx",
+                            lineNumber: 130,
+                            columnNumber: 13
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/Components/Header.jsx",
+                        lineNumber: 122,
+                        columnNumber: 11
+                    }, undefined)
+                }, void 0, false, {
+                    fileName: "src/Components/Header.jsx",
+                    lineNumber: 121,
                     columnNumber: 9
                 }, undefined)
             ]
@@ -29258,7 +29279,6 @@ const HomeToast = ()=>{
         role: "status",
         "aria-live": "polite",
         className: `toast ${toast.visible ? "visible" : ""}`,
-        "aria-hidden": !toast.visible,
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "toastMessage",
@@ -29275,6 +29295,7 @@ const HomeToast = ()=>{
                         message: ""
                     }),
                 "aria-label": "Dismiss notification",
+                tabIndex: toast.visible ? 0 : -1,
                 children: "\xd7"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",

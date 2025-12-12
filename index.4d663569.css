@@ -22,6 +22,46 @@
   font-display: swap;
 }
 
+:root {
+  --bg: #fff;
+  --text: #0f172a;
+  --muted: #4e567e;
+  --card: #fff;
+  --surface: #f8f8f8;
+  --header-bg: #ffffffeb;
+  --header-border: #0000000a;
+  --nav-hover: #0c653d;
+  --chip-bg: #0c653d12;
+  --chip-border: #0c653d1f;
+  --toast-bg: #000000d9;
+  --shadow-strong: 0 8px 24px #0006;
+  --link: #0c653d;
+  --footer-bg: #0c653d;
+  --footer-text: #fff;
+  --scrollbar-width: 12px;
+  --accent-green: 60, 60, 60;
+  --header-mask-height: 56px;
+}
+
+[data-theme="dark"] {
+  --bg: #0a0e18;
+  --text: #e6e9f3;
+  --muted: #b3bed8;
+  --card: #0a0e18;
+  --surface: #0a0e18;
+  --header-bg: #0a0e18;
+  --header-border: #ffffff14;
+  --nav-hover: #3d8a64;
+  --chip-bg: #ffffff24;
+  --chip-border: #ffffff47;
+  --toast-bg: #0a0e18;
+  --shadow-strong: 0 18px 36px #0009;
+  --link: #3d8a64;
+  --footer-bg: #0a0e18;
+  --footer-text: #e9f5ef;
+  --accent-green: 240, 240, 245;
+}
+
 @font-face {
   font-family: Montserrat;
   src: url("montserrat-v31-latin_latin-ext-regular.a89616fd.woff2") format("woff2");
@@ -58,6 +98,8 @@ html {
 body {
   height: 100%;
   width: 100%;
+  background: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizelegibility;
@@ -221,16 +263,16 @@ li {
 }
 
 li::marker {
-  color: #4e567e;
+  color: var(--muted);
 }
 
 a {
-  color: #000;
+  color: var(--link);
   text-decoration: none;
 }
 
 a:hover {
-  color: #4e567e;
+  color: var(--nav-hover);
 }
 
 .container {
@@ -299,11 +341,12 @@ a:hover {
 .toast {
   min-width: 220px;
   max-width: calc(100% - 2rem);
-  color: #fff;
+  background: var(--toast-bg);
+  color: var(--text);
+  box-shadow: var(--shadow-strong);
   opacity: 0;
   z-index: 9999;
   pointer-events: none;
-  background: #000000d9;
   border-radius: 8px;
   align-items: center;
   gap: .75rem;
@@ -314,7 +357,6 @@ a:hover {
   bottom: 1.25rem;
   right: 1rem;
   transform: translateY(6px);
-  box-shadow: 0 8px 24px #0006;
 }
 
 .toast.visible {
@@ -344,8 +386,10 @@ a:hover {
 }
 
 .container .box {
+  border: 1px solid var(--header-border);
   text-align: center;
-  border: 1px solid #ccc;
+  background: var(--card);
+  color: var(--text);
   border-radius: 10px;
   flex-direction: column;
   justify-content: flex-start;
@@ -402,9 +446,9 @@ a:hover {
 }
 
 .skillChip {
-  color: #0c653d;
-  background: #0c653d12;
-  border: 1px solid #0c653d1f;
+  background: var(--chip-bg);
+  color: var(--nav-hover);
+  border: 1px solid var(--chip-border);
   border-radius: 999px;
   align-items: center;
   padding: .3rem .6rem;
@@ -433,12 +477,6 @@ a:hover {
   #portfolio .projectImageWrap {
     height: 240px;
   }
-}
-
-:root {
-  --scrollbar-width: 12px;
-  --accent-green: 12, 101, 61;
-  --header-mask-height: 56px;
 }
 
 html {
@@ -622,9 +660,9 @@ img.socialIcon {
   left: 0;
   right: var(--scrollbar-width, 0px);
   z-index: 60;
-  background: #ffffffeb;
+  background: var(--header-bg);
+  box-shadow: 0 1px 0 var(--header-border);
   position: fixed;
-  box-shadow: 0 1px #0000000a;
 }
 
 .headerInner {
@@ -650,7 +688,7 @@ img.socialIcon {
 }
 
 .headerName {
-  color: #222;
+  color: var(--text);
   opacity: 0;
   white-space: nowrap;
   font-size: 1.1rem;
@@ -678,7 +716,39 @@ img.socialIcon {
 }
 
 .mainNav a:hover, .mainNav a:focus {
-  color: #0c653d;
+  color: var(--nav-hover);
+}
+
+.headerActions {
+  align-items: center;
+  gap: .5rem;
+  display: flex;
+  position: absolute;
+  right: 1rem;
+}
+
+.themeToggle {
+  border: 1px solid var(--header-border);
+  color: var(--text);
+  cursor: pointer;
+  background: none;
+  border-radius: 999px;
+  align-items: center;
+  gap: .35rem;
+  padding: .35rem .6rem;
+  font-weight: 600;
+  transition: transform .16s, border-color .16s, background .16s;
+  display: inline-flex;
+}
+
+.themeToggle:hover, .themeToggle:focus-visible {
+  border-color: var(--nav-hover);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.themeToggleText {
+  font-size: .9rem;
 }
 
 .hamburger {
@@ -693,7 +763,7 @@ img.socialIcon {
 .hamburgerBox {
   width: 22px;
   height: 2px;
-  background: #222;
+  background: var(--text);
   border-radius: 2px;
   display: block;
   position: relative;
@@ -703,7 +773,7 @@ img.socialIcon {
   content: "";
   width: 22px;
   height: 2px;
-  background: #222;
+  background: var(--text);
   border-radius: 2px;
   transition: transform .2s, opacity .2s;
   position: absolute;
@@ -737,9 +807,9 @@ img.socialIcon {
   }
 
   .mainNav {
+    background: var(--header-bg);
     max-height: 0;
     opacity: 0;
-    background: #fffffffa;
     flex-direction: column;
     gap: 0;
     transition: max-height .26s, opacity .2s;
@@ -756,7 +826,7 @@ img.socialIcon {
   }
 
   .mainNav a {
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--header-border);
     padding: 1rem;
   }
 

@@ -768,10 +768,8 @@ const Portfolio = ()=>{
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: "projectSkills",
-                                    "aria-label": `${project.title} skills`,
                                     children: (project.skills || []).map((skill)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                             className: "skillChip",
-                                            "aria-hidden": "true",
                                             children: skill
                                         }, skill, false, {
                                             fileName: "src/Components/Portfolio.jsx",

@@ -608,7 +608,7 @@ const Education = ()=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "educationContent",
                 style: {
-                    backgroundColor: "white",
+                    backgroundColor: "var(--card)",
                     width: "60%",
                     padding: "3rem",
                     margin: "3rem auto",
@@ -850,7 +850,7 @@ $RefreshReg$(_c, "Education");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/motion-background.jpg":"8zydX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"8zydX":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../images/motion-background.jpg":"8zydX"}],"8zydX":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("dZi4Z") + "motion-background.0a6a8db0.jpg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}]},["1xC6H","jwja4"], null, "parcelRequire6158")
