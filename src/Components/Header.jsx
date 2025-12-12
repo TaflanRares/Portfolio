@@ -5,15 +5,11 @@
  * user scrolls so that they can constantly reach any part of your page.
  */
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 
-const Header = ({ theme, onToggleTheme }) => {
+const Header = () => {
   const [open, setOpen] = useState(false);
   const [showName, setShowName] = useState(false);
   const navRef = useRef(null);
-
-  const isDark = theme === "dark";
-  const themeLabel = isDark ? "Switch to light mode" : "Switch to dark mode";
 
   // Smooth, robust scrolling for anchor links (works with lazy-loaded sections)
   const handleNavClick = (e) => {
@@ -124,17 +120,6 @@ const Header = ({ theme, onToggleTheme }) => {
 
         <div className="headerActions">
           <button
-            className="themeToggle"
-            onClick={onToggleTheme}
-            aria-label={themeLabel}
-            aria-pressed={isDark}
-            type="button"
-          >
-            <span aria-hidden="true">{isDark ? "☀️" : "🌙"}</span>
-            <span className="themeToggleText">{isDark ? "Light" : "Dark"}</span>
-          </button>
-
-          <button
             className="hamburger"
             aria-controls="mainNav"
             aria-expanded={open}
@@ -151,8 +136,3 @@ const Header = ({ theme, onToggleTheme }) => {
 };
 
 export default Header;
-
-Header.propTypes = {
-  theme: PropTypes.string,
-  onToggleTheme: PropTypes.func.isRequired,
-};

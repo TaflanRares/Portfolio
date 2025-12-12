@@ -9,7 +9,15 @@ import App from "./App";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
+
+// Hide loading screen once React mounts
 root.render(<App />);
+setTimeout(() => {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hidden');
+  }
+}, 0);
 
 // Ensure the header mask covers the scrollbar area by measuring the
 // header height and setting a CSS variable the stylesheet uses.
