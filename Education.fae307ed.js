@@ -163,10 +163,10 @@ window.addEventListener("parcelhmraccept", ()=>{
     ErrorOverlay.dismissRuntimeErrors();
 });
 
-},{"react-refresh/runtime":"786KC","react-error-overlay":"1dldy"}],"jwja4":[function(require,module,exports) {
+},{"react-refresh/runtime":"786KC","react-error-overlay":"1dldy"}],"jNner":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
-var HMR_HOST = null;
+var HMR_HOST = "localhost";
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
@@ -853,6 +853,6 @@ $RefreshReg$(_c, "Education");
 },{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/motion-background.jpg":"8zydX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"8zydX":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("dZi4Z") + "motion-background.0a6a8db0.jpg" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}]},["1xC6H","jwja4"], null, "parcelRequire6158")
+},{"./helpers/bundle-url":"lgJ39"}]},["1xC6H","jNner"], null, "parcelRequire6158")
 
 //# sourceMappingURL=Education.fae307ed.js.map

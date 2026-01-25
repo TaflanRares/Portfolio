@@ -2503,10 +2503,10 @@ process.umask = function() {
     return 0;
 };
 
-},{}],"ShInH":[function(require,module,exports) {
+},{}],"iRn8g":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
-var HMR_HOST = null;
+var HMR_HOST = "localhost";
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
@@ -29415,6 +29415,6 @@ module.exports = require("./helpers/browser/js-loader")(require("./helpers/bundl
     throw err;
 }).then(()=>module.bundle.root("6QZcy"));
 
-},{"./helpers/browser/js-loader":"61B45","./helpers/bundle-url":"lgJ39"}]},["1xC6H","ShInH","8lqZg"], "8lqZg", "parcelRequire6158")
+},{"./helpers/browser/js-loader":"61B45","./helpers/bundle-url":"lgJ39"}]},["1xC6H","iRn8g","8lqZg"], "8lqZg", "parcelRequire6158")
 
 //# sourceMappingURL=index.975ef6c8.js.map

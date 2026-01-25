@@ -802,6 +802,11 @@ img.socialIcon {
 }
 
 @media (max-width: 768px) {
+  .headerInner {
+    min-height: 56px;
+    padding: 1rem 1.25rem;
+  }
+
   .hamburger {
     display: block;
   }

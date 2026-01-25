@@ -163,10 +163,10 @@ window.addEventListener("parcelhmraccept", ()=>{
     ErrorOverlay.dismissRuntimeErrors();
 });
 
-},{"react-refresh/runtime":"786KC","react-error-overlay":"1dldy"}],"9yf48":[function(require,module,exports) {
+},{"react-refresh/runtime":"786KC","react-error-overlay":"1dldy"}],"6FxCw":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
-var HMR_HOST = null;
+var HMR_HOST = "localhost";
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
@@ -828,6 +828,6 @@ module.exports = require("./helpers/bundle-url").getBundleURL("jd82V") + "ReactL
 },{"./helpers/bundle-url":"lgJ39"}],"gbSoS":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("jd82V") + "BESTLogoVisiniu.9bc080f0.webp" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}]},["1xC6H","9yf48"], null, "parcelRequire6158")
+},{"./helpers/bundle-url":"lgJ39"}]},["1xC6H","6FxCw"], null, "parcelRequire6158")
 
 //# sourceMappingURL=Portfolio.8244396d.js.map
