@@ -28725,12 +28725,41 @@ const Header = ()=>{
         }
         // Try to find the element immediately, otherwise poll until it appears or timeout
         const tryScroll = ()=>{
-            const el = document.getElementById(id);
+            let el = document.getElementById(id);
+            // For contact, target the actual footer container instead of the 0-height anchor
+            if (id === "contact") {
+                const footerEl = document.getElementById("footer");
+                if (footerEl) el = footerEl;
+            }
             if (el) {
+                const toFooter = id === "footer" || id === "contact";
+                const block = toFooter ? "end" : "start";
                 el.scrollIntoView({
                     behavior: "smooth",
-                    block: "start"
+                    block
                 });
+                // Reinforce scroll for footer/contact until it's properly aligned at bottom
+                if (toFooter) {
+                    let attempts = 0;
+                    const maxAttempts = 15; // up to ~3s at 200ms
+                    const tick = ()=>{
+                        attempts += 1;
+                        const footerEl = document.getElementById("footer");
+                        if (footerEl) {
+                            const rect = footerEl.getBoundingClientRect();
+                            const atBottom = rect.bottom <= window.innerHeight + 2; // tolerance
+                            if (atBottom) return; // aligned
+                            // Scroll explicitly to the bottom of the footer
+                            const targetTop = footerEl.offsetTop + footerEl.offsetHeight - window.innerHeight;
+                            window.scrollTo({
+                                top: Math.max(0, targetTop),
+                                behavior: "smooth"
+                            });
+                        }
+                        if (attempts < maxAttempts) setTimeout(tick, 200);
+                    };
+                    setTimeout(tick, 200);
+                }
                 return true;
             }
             return false;
@@ -28801,12 +28830,12 @@ const Header = ()=>{
                         children: "Rareș Taflan"
                     }, void 0, false, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 105,
+                        lineNumber: 136,
                         columnNumber: 11
                     }, undefined)
                 }, void 0, false, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 104,
+                    lineNumber: 135,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("nav", {
@@ -28821,7 +28850,7 @@ const Header = ()=>{
                             children: "Home"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 115,
+                            lineNumber: 146,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -28830,7 +28859,7 @@ const Header = ()=>{
                             children: "Portfolio"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 116,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -28839,22 +28868,22 @@ const Header = ()=>{
                             children: "Education"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 117,
+                            lineNumber: 148,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                            href: "#footer",
+                            href: "#contact",
                             onClick: handleNavClick,
                             children: "Contact"
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 118,
+                            lineNumber: 149,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 109,
+                    lineNumber: 140,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28870,28 +28899,28 @@ const Header = ()=>{
                             className: `hamburgerBox ${open ? "open" : ""}`
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 130,
+                            lineNumber: 161,
                             columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 122,
+                        lineNumber: 153,
                         columnNumber: 11
                     }, undefined)
                 }, void 0, false, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 121,
+                    lineNumber: 152,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/Components/Header.jsx",
-            lineNumber: 103,
+            lineNumber: 134,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/Components/Header.jsx",
-        lineNumber: 102,
+        lineNumber: 133,
         columnNumber: 5
     }, undefined);
 };
@@ -28945,9 +28974,10 @@ var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
  * freely use on your site.
  */ var _imageHome1Webp = require("../images/image_home1.webp");
 var _imageHome1WebpDefault = parcelHelpers.interopDefault(_imageHome1Webp);
-var _s = $RefreshSig$();
+var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 const imageAltText = "Forest";
 const Home = ({ name , title , gitHub , linkedIn , email  })=>{
+    _s();
     // Split name into first and last for mobile
     const nameParts = name.split(" ");
     const firstName = nameParts[0] || "";
@@ -28960,6 +28990,19 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
             rotation: (Math.random() - 0.5) * 30,
             delay: i * 0.06
         }));
+    // Preload the hero background image so it starts loading immediately
+    (0, _react.useEffect)(()=>{
+        try {
+            const link = document.createElement("link");
+            link.rel = "preload";
+            link.as = "image";
+            link.href = (0, _imageHome1WebpDefault.default);
+            document.head.appendChild(link);
+            return ()=>{
+                if (link && link.parentNode) link.parentNode.removeChild(link);
+            };
+        } catch  {}
+    }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
         id: "home",
         className: "min-height",
@@ -28967,10 +29010,13 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                 className: "background",
                 src: (0, _imageHome1WebpDefault.default),
-                alt: ""
+                alt: "",
+                loading: "eager",
+                fetchpriority: "high",
+                decoding: "async"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 47,
+                lineNumber: 61,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -29003,12 +29049,12 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                         children: letter
                                     }, i, false, {
                                         fileName: "src/Components/Home.jsx",
-                                        lineNumber: 61,
+                                        lineNumber: 82,
                                         columnNumber: 15
                                     }, undefined))
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 59,
+                                lineNumber: 80,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -29016,7 +29062,7 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                 children: " "
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 76,
+                                lineNumber: 97,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -29035,19 +29081,19 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                         children: letter
                                     }, letterIndex, false, {
                                         fileName: "src/Components/Home.jsx",
-                                        lineNumber: 81,
+                                        lineNumber: 102,
                                         columnNumber: 17
                                     }, undefined);
                                 })
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 77,
+                                lineNumber: 98,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 58,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -29057,7 +29103,7 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                         children: title
                     }, void 0, false, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 98,
+                        lineNumber: 119,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -29078,12 +29124,12 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                     height: "42"
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 102,
+                                    lineNumber: 123,
                                     columnNumber: 15
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 101,
+                                lineNumber: 122,
                                 columnNumber: 13
                             }, undefined),
                             linkedIn && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -29098,12 +29144,12 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                     height: "42"
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 111,
+                                    lineNumber: 132,
                                     columnNumber: 15
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/Components/Home.jsx",
-                                lineNumber: 106,
+                                lineNumber: 127,
                                 columnNumber: 13
                             }, undefined),
                             email && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
@@ -29151,25 +29197,25 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                                         height: "42"
                                     }, void 0, false, {
                                         fileName: "src/Components/Home.jsx",
-                                        lineNumber: 150,
+                                        lineNumber: 171,
                                         columnNumber: 17
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 116,
+                                    lineNumber: 137,
                                     columnNumber: 15
                                 }, undefined)
                             }, void 0, false)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 99,
+                        lineNumber: 120,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 48,
+                lineNumber: 69,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -29178,7 +29224,7 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 children: "Brașov, Romania"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 156,
+                lineNumber: 177,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -29219,12 +29265,12 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                     height: "48"
                 }, void 0, false, {
                     fileName: "src/Components/Home.jsx",
-                    lineNumber: 188,
+                    lineNumber: 209,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 159,
+                lineNumber: 180,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -29232,25 +29278,26 @@ const Home = ({ name , title , gitHub , linkedIn , email  })=>{
                 "aria-hidden": "true"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 190,
+                lineNumber: 211,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(HomeToast, {}, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 192,
+                lineNumber: 213,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/Home.jsx",
-        lineNumber: 46,
+        lineNumber: 60,
         columnNumber: 5
     }, undefined);
 };
+_s(Home, "OD7bBpZva5O2jO+Puf00hKivP7c=");
 _c = Home;
 // Small toast component reused inside Home via a window event
 const HomeToast = ()=>{
-    _s();
+    _s1();
     const [toast, setToast] = (0, _react.useState)({
         visible: false,
         message: ""
@@ -29285,7 +29332,7 @@ const HomeToast = ()=>{
                 children: toast.message
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 218,
+                lineNumber: 239,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -29299,17 +29346,17 @@ const HomeToast = ()=>{
                 children: "\xd7"
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 219,
+                lineNumber: 240,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/Home.jsx",
-        lineNumber: 217,
+        lineNumber: 238,
         columnNumber: 5
     }, undefined);
 };
-_s(HomeToast, "V+0Dwti18Csqkf7DIop0YvP7xgg=");
+_s1(HomeToast, "V+0Dwti18Csqkf7DIop0YvP7xgg=");
 _c1 = HomeToast;
 Home.defaultProps = {
     name: "",
