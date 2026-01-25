@@ -846,6 +846,12 @@ img.socialIcon {
 .hamburgerBox.open::after { opacity: 0; }
 
 @media (max-width: 768px) {
+  /* Make the fixed header taller on mobile for better touch targets */
+  .headerInner {
+    padding: 1rem 1.25rem; /* increase vertical padding */
+    min-height: 56px;      /* ensure a comfortable tap area */
+  }
+
   .hamburger { display: block; }
   .mainNav {
     position: absolute;

@@ -4,12 +4,14 @@
   "description": "Educator JS Codespace Template",
   "source": "src/index.html",
   "homepage": "http://TaflanRares.github.io/Portfolio",
+  "customDomain": "rarestaflan.dev",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
-    "build-gh": "parcel build --public-url ./",
+    "start": "parcel src/index.html --host localhost",
+    "build": "parcel build src/index.html",
+    "build-gh": "parcel build src/index.html --public-url ./",
     "predeploy": "npm run build-gh",
-    "deploy": "gh-pages -d dist"
+    "deploy": "node scripts/prepare-deploy.js && gh-pages -d dist",
+    "deploy:domain": "CUSTOM_DOMAIN=$CUSTOM_DOMAIN node scripts/prepare-deploy.js && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
