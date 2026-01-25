@@ -1,23 +1,17 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/devcontainers/images/tree/main/src/javascript-node
 {
   "name": "Taflan Rares Portfolio",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
+
   "hostRequirements": {
     "cpus": 4
   },
-  "waitFor": "onCreateCommand",
-  "updateContentCommand": "npm install",
-  "postCreateCommand": "",
-  "postAttachCommand": {
-    "server": "npm start"
-  },
 
-  // Configure tool-specific properties.
+  "updateContentCommand": "npm install",
+
+  "postAttachCommand": "npm start",
+
   "customizations": {
-    // Configure properties specific to VS Code.
     "vscode": {
-      // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
