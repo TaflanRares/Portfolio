@@ -32,9 +32,40 @@ const Header = () => {
 
     // Try to find the element immediately, otherwise poll until it appears or timeout
     const tryScroll = () => {
-      const el = document.getElementById(id);
+      let el = document.getElementById(id);
+
+      // For contact, target the actual footer container instead of the 0-height anchor
+      if (id === 'contact') {
+        const footerEl = document.getElementById('footer');
+        if (footerEl) el = footerEl;
+      }
+
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const toFooter = (id === 'footer' || id === 'contact');
+        const block = toFooter ? 'end' : 'start';
+        el.scrollIntoView({ behavior: 'smooth', block });
+
+        // Reinforce scroll for footer/contact until it's properly aligned at bottom
+        if (toFooter) {
+          let attempts = 0;
+          const maxAttempts = 15; // up to ~3s at 200ms
+          const tick = () => {
+            attempts += 1;
+            const footerEl = document.getElementById('footer');
+            if (footerEl) {
+              const rect = footerEl.getBoundingClientRect();
+              const atBottom = rect.bottom <= window.innerHeight + 2; // tolerance
+              if (atBottom) return; // aligned
+              // Scroll explicitly to the bottom of the footer
+              const targetTop = footerEl.offsetTop + footerEl.offsetHeight - window.innerHeight;
+              window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+            }
+            if (attempts < maxAttempts) {
+              setTimeout(tick, 200);
+            }
+          };
+          setTimeout(tick, 200);
+        }
         return true;
       }
       return false;
@@ -115,7 +146,7 @@ const Header = () => {
           <a href="#home" onClick={handleNavClick}>Home</a>
           <a href="#portfolio" onClick={handleNavClick}>Portfolio</a>
           <a href="#education" onClick={handleNavClick}>Education</a>
-          <a href="#footer" onClick={handleNavClick}>Contact</a>
+          <a href="#contact" onClick={handleNavClick}>Contact</a>
         </nav>
 
         <div className="headerActions">

@@ -42,9 +42,30 @@ const Home = ({ name, title, gitHub, linkedIn, email }) => {
     delay: i * 0.06
   }));
 
+  // Preload the hero background image so it starts loading immediately
+  useEffect(() => {
+    try {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = image;
+      document.head.appendChild(link);
+      return () => {
+        if (link && link.parentNode) link.parentNode.removeChild(link);
+      };
+    } catch {}
+  }, []);
+
   return (
     <section id="home" className="min-height">
-      <img className="background" src={image} alt="" />
+      <img
+        className="background"
+        src={image}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
       <div
         className="homeText"
         style={{
