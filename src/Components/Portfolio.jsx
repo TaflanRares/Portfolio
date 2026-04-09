@@ -14,6 +14,7 @@ import LinguaAstraImg from "../images/projects/LinguaAstra.webp";
 import BazeleElectrotehniciiVRImg from "../images/projects/BazeleElectrotehniciiVR.webp";
 import ReactImg from "../images/projects/ReactLogo.webp";
 import BESTImg from "../images/projects/BESTLogoVisiniu.webp";
+import BlueStreamlineImg from "../images/projects/BlueStreamline.webp";
 
 /**
  * Project list
@@ -29,6 +30,14 @@ const projectList = [
     url: "https://bestbrasov.ro/",
     skills: ["Event logistics", "Teamwork", "Communication"],
     image: BESTImg,
+  },
+  {
+    title: "BlueStreamline",
+    description:
+      "Developing BMS Master firmware on STM32 using FreeRTOS task scheduling; implements state-based control logic, processes cell data received from BMS Slave modules, and communicates critical info via CAN bus",
+    url: "https://bluestreamline.ro/",
+    skills: ["Embedded C", "FreeRTOS", "STM32"],
+    image: BlueStreamlineImg,
   },
   {
     title: "Lingua Astra",
